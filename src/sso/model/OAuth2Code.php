@@ -2,11 +2,31 @@
 namespace sso\model;
 
 use lay\core\Model;
+use lay\core\Expireable;
 
-class OAuth2Code extends Model {
+/**
+ * OAuth2 Code对象
+ * @author Lay Li
+ * @property string $code
+ * @property int $userid
+ * @property string $clientId
+ * @property string $redriectURI
+ * @property int $expires
+ * @method void setCode(string $code) 给code属性赋值
+ * @method void setUserid(int $userid) 给userid属性赋值
+ * @method void setClientId(string $clientId) 给clientId属性赋值
+ * @method void setRedriectURI(string $redriectURI) 给redriectURI属性赋值
+ * @method void setExpires(int $expires) 给expires属性赋值
+ * @method string getCode() 获取code属性值
+ * @method int getUserid() 获取userid属性值
+ * @method string getClientId() 获取clientId属性值
+ * @method string getRedriectURI() 获取redriectURI属性值
+ * @method int getExpires() 获取expires属性值
+ */
+class OAuth2Code extends Model implements Expireable {
     public function __construct() {
         parent::__construct(array(
-            'id' => '',
+            'code' => '',
             'userid' => 0,
             'clientId' => '',
             'redirectURI' => '',
@@ -15,7 +35,7 @@ class OAuth2Code extends Model {
     }
     public function rules() {
         return array(
-            'id' => self::PROPETYPE_STRING,
+            'code' => self::PROPETYPE_STRING,
             'userid' => self::PROPETYPE_INTEGER,
             'clientId' => self::PROPETYPE_STRING,
             'redirectURI' => self::PROPETYPE_STRING,
@@ -30,7 +50,7 @@ class OAuth2Code extends Model {
     }
     public function columns() {
         return array(
-            'id' => '_id',
+            'code' => '_id',
             'userid' => 'userid',
             'clientId' => 'clientId',
             'redirectURI' => 'redirectURI',
@@ -39,6 +59,13 @@ class OAuth2Code extends Model {
     }
     public function primary() {
         return '_id';
+    }
+    
+    public function setLifetime($lifetime) {
+        $this->setExpires(time() + $lifetime);
+    }
+    public function getLifetime() {
+        return $this->getExpires() - time();
     }
 }
 ?>

@@ -9,6 +9,8 @@ use lay\core\EventEmitter;
 use lay\App;
 use lay\core\Action;
 use lay\util\Logger;
+use sso\model\OAuth2Code;
+use sso\core\OAuth2;
 
 class OAuth2CodeService extends Service {
     /**
@@ -22,20 +24,36 @@ class OAuth2CodeService extends Service {
      */
     protected $store;
     public function __construct() {
-        //$this->mongo = Store::getInstance('sso\store\OAuth2CodeMongo');
+        $this->mongo = Store::getInstance('sso\store\OAuth2CodeMongo');
         parent::__construct(Store::getInstance('sso\store\OAuth2CodeMemcache'));
     }
-    public function add($info) {
-        $ret = $this->store->add($info);
+    public function add(array $info) {
+        $ret = parent::add($info);
         if($ret) {
-            $this->info = $info;
-            EventEmitter::on(Action::E_STOP, array($this, 'addInMongo'));
+            EventEmitter::on(Action::E_STOP, array($this, 'addInMongo'), EventEmitter::L_HIGH, array($info));
         }
         return $ret;
     }
-    public function addInMongo() {
-        Logger::debug($this->info);
-        Store::getInstance('sso\store\OAuth2CodeMongo')->add($this->info);
+    public function addInMongo($app, $info) {
+        $this->mongo->add($info);
+    }
+    
+    public function gen($user, $client) {
+        $lifetime = App::get('oauth2.lifetime.code', 100);
+        $code = OAuth2::generateCode();
+        
+        $oauth2code = new OAuth2Code();
+        $oauth2code->setCode($code);
+        $oauth2code->setLifetime($lifetime);
+        $oauth2code->setUserid($user['userid']);
+        $oauth2code->setClientId($client['clientId']);
+        $oauth2code->setRedirectURI($client['redirectURI']);
+        $ret = $this->add($oauth2code->toArray());
+        if($ret) {
+            return $code;
+        } else {
+            return false;
+        }
     }
 }
 ?>

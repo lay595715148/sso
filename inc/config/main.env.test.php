@@ -5,12 +5,27 @@ use config\T;
 
 return array(
     'logger' => array(Logger::L_ALL & ~Logger::L_INFO, false, 0),
+    'theme' => 'default',
+    'themes' => array(
+        'default' => array(
+            'dir' => realpath(__DIR__ . '/../../themes/default')
+        )
+    ),
+    'plugins' => array(
+        'http' => array(
+            'name' => 'http',
+            'classname' => 'plugin\http\HttpPlugin'
+        )
+    ),
     'actions' => array(
         '/' => array(
             'classname' => 'sso\action\Index'
         ),
         '/authorize' => array(
             'classname' => 'sso\action\Authorize'
+        ),
+        '/redirect' => array(
+            'classname' => 'sso\action\Redirect'
         )
     ),
     'stores' => array(

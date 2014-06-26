@@ -2,8 +2,10 @@
 namespace sso\model;
 
 use lay\core\Model;
+use lay\core\Expireable;
+use lay\App;
 
-class Client extends Model {
+class Client extends Model implements Expireable {
     public function __construct() {
         parent::__construct(array(
             'id' => 0,
@@ -51,6 +53,13 @@ class Client extends Model {
     }
     public function primary() {
         return '_id';
+    }
+    
+    public function getLifetime() {
+        return App::get('lifetime.client', 1800);
+    }
+    public function setLifetime($lifetime) {
+        App::set('lifetime.client', intval($lifetime));
     }
 }
 ?>
