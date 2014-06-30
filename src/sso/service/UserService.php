@@ -28,11 +28,27 @@ class UserService extends Service {
         $ret = $this->memcache->get($id);
         if(empty($ret)) {
             $ret = $this->store->get($id);
+            //增加存入缓存任务
             if($ret) {
                 EventEmitter::on(App::E_STOP, array($this, 'createInMemcache'), 0, array($ret));
             }
         }
+        //去除password字段
+        if($ret) {
+            unset($ret['pass']);
+        }
         return $ret;
+    }
+    public function upd($id, array $info) {
+        $ret = parent::upd($id, $info);
+        if($ret) {
+            EventEmitter::on(App::E_STOP, array($this, 'updateInMemcache'), 0, array($id));
+        }
+        return $ret;
+    }
+    public function updateInMemcache($app, $id) {
+        $info = $this->store->get($id);
+        $this->memcache->upd($id, $info);
     }
     public function createInMemcache($app, $info) {
         Logger::info($info);

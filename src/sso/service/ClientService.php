@@ -39,6 +39,10 @@ class ClientService extends Service {
         $this->memcache = Store::getInstance('sso\store\ClientMemcache');
         parent::__construct(Store::getInstance('sso\store\ClientMongo'));
     }
+    public function update($query, $info) {
+        $ret = $this->store->update($query, $info);
+        return $ret ? true : false;
+    }
     public function checkClient($clientId, $clientType = false, $redirectURI = false, $clientSecret = false) {
         $query = array();
         if($clientId !== false) {
@@ -69,6 +73,17 @@ class ClientService extends Service {
             }
         }
         return $ret;
+    }
+    public function upd($id, array $info) {
+        $ret = parent::upd($id, $info);
+        if($ret) {
+            EventEmitter::on(App::E_STOP, array($this, 'updateInMemcache'), 0, array($id));
+        }
+        return $ret;
+    }
+    public function updateInMemcache($app, $id) {
+        $info = $this->store->get($id);
+        $this->memcache->upd($id, $info);
     }
     public function createInMemcache($app, $info) {
         Logger::info($info);

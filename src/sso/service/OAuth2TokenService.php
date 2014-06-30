@@ -27,6 +27,12 @@ class OAuth2TokenService extends Service {
         $this->mongo = Store::getInstance('sso\store\OAuth2TokenMongo');
         parent::__construct(Store::getInstance('sso\store\OAuth2TokenMemcache'));
     }
+    /**
+     * 在数据库中清除过期的令牌码数据
+     */
+    public function clean() {
+        return $this->mongo->remove(array('expires' => array('$lt' => time())));
+    }
     public function add(array $info) {
         $ret = $this->store->add($info);
         if($ret) {
@@ -38,30 +44,39 @@ class OAuth2TokenService extends Service {
         $this->mongo->add($info);
     }
     public function gen($user, $client) {
-        $tokens = array();
-        $useRefresh = App::get('oauth2.use_refresh_token', true);
-        $accessLifetime = App::get('oauth2.lifetime.token', 1800);
-        $refreshLifetime = App::get('oauth2.lifetime.refresh_token', 18400);
+        $lifetime = App::get('oauth2.lifetime.token', 1800);
         $accessToken = OAuth2::generateCode();
-        $refreshToken = OAuth2::generateCode();
         
         $oauth2token = new OAuth2Token();
-        $oauth2token->setToken($token);
+        $oauth2token->setToken($accessToken);
         $oauth2token->setLifetime($lifetime);
-        $oauth2token->setUserid($user['userid']);
+        $oauth2token->setUserid($user['id']);
         $oauth2token->setClientId($client['clientId']);
         $oauth2token->setType(OAuth2::TOKEN_TYPE_ACCESS);
-        $tokens[] = $this->add($oauth2token->toArray());
-        if($useRefresh) {
-            $token = new OAuth2Token();
-            $token->setToken($token);
-            $token->setLifetime($lifetime);
-            $token->setUserid($user['userid']);
-            $token->setClientId($client['clientId']);
-            $token->setType(OAuth2::TOKEN_TYPE_REFRESH);
-            $tokens[] = $this->add($token->toArray());
+        $info = $oauth2token->toArray();
+        $ret = $this->add($info);
+        if($ret) {
+            return $info;
+        } else {
+            return false;
         }
-        return $tokens;
+    }
+    public function genRefresh($user, $client) {
+        $lifetime = App::get('oauth2.lifetime.refresh_token', 18400);
+        $refreshToken = OAuth2::generateCode();
+        $oauth2token = new OAuth2Token();
+        $oauth2token->setToken($refreshToken);
+        $oauth2token->setLifetime($lifetime);
+        $oauth2token->setUserid($user['id']);
+        $oauth2token->setClientId($client['clientId']);
+        $oauth2token->setType(OAuth2::TOKEN_TYPE_REFRESH);
+        $info = $oauth2token->toArray();
+        $ret = $this->add($info);
+        if($ret) {
+            return $info;
+        } else {
+            return false;
+        }
     }
 }
 ?>

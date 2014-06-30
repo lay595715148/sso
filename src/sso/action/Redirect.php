@@ -8,6 +8,8 @@ use sso\service\OAuth2CodeService;
 use sso\service\ClientService;
 use sso\service\OAuth2TokenService;
 use lay\action\TypicalAction;
+use sso\sdk\SsoAuth;
+use sso\core\OAuth2;
 
 class Redirect extends TypicalAction {
     /**
@@ -35,20 +37,25 @@ class Redirect extends TypicalAction {
         parent::onCreate();
     }
     public function onGet() {
+        $clientId = 'lay49515';
+        $clientSecret = '2b53761249254ce6b502f521e5cc0683';
+        $redriectURI = 'http://sso.laysoft.cn/redirect';
+        $type = '';
+        $options = array();
         $code = $_REQUEST['code'];
-        $token = $_REQUEST['token'];
-        if($code) {
-            $this->template->push('code', $code);
-            $oauth2code = $this->oauth2CodeService->get($code);
-            $this->template->push('oauth2code', $oauth2code);
-        }
-        if($token) {
-            $this->template->push('token', $token);
-            $oauth2token = $this->oauth2CodeService->get($token);
-            $this->template->push('oauth2token', $oauth2token);
-        }
+        $options['code'] = $code;
+        $options['redirectURI'] = $redriectURI;
+        
+        $oauth2code = $this->oauth2CodeService->get($code);
+        $this->template->push('code', $code);
+        $this->template->push('oauth2code', $oauth2code);
+        
+        $sso = new SsoAuth($clientId, $clientSecret);
+        $ret = $sso->getToken($type, $options);
+        $this->template->push('ret', $ret);
     }
     public function onPost() {
+        $_GET = $_REQUEST;
         $this->onGet();
     }
 }

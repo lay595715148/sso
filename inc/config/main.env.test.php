@@ -5,6 +5,7 @@ use config\T;
 
 return array(
     'logger' => array(Logger::L_ALL & ~Logger::L_INFO, false, 0),
+    'appname' => 'sso',
     'theme' => 'default',
     'themes' => array(
         'default' => array(
@@ -15,6 +16,10 @@ return array(
         'http' => array(
             'name' => 'http',
             'classname' => 'plugin\http\HttpPlugin'
+        ),
+        'session' => array(
+            'name' => 'session',
+            'classname' => 'sso\plugin\session\SessionPlugin'
         )
     ),
     'actions' => array(
@@ -23,6 +28,12 @@ return array(
         ),
         '/authorize' => array(
             'classname' => 'sso\action\Authorize'
+        ),
+        '/token' => array(
+            'classname' => 'sso\action\Token'
+        ),
+        '/info' => array(
+            'classname' => 'sso\action\Info'
         ),
         '/redirect' => array(
             'classname' => 'sso\action\Redirect'

@@ -377,6 +377,44 @@
     overflow:hidden;
     border:0
 }
+.login-line-cfg {
+    position: relative;
+    width: 245px;
+    height: 154px;
+    margin: 18px 0 0 25px;
+    overflow: hidden;
+}
+.accredit_info {
+    margin-top: 10px;
+    overflow: hidden;
+    transition-property: height;
+    transition-duration: .5s;
+}
+.accredit_info_op li {
+    height: 31px;
+    border: 1px;
+    color: #666;
+}
+.select_all_li {
+    border-top: 1px dotted #e2e2e2!important;
+    border-bottom: 1px dotted #e2e2e2!important;
+}
+.oauth_checkbox_all, .oauth_checkbox {
+    display: block;
+    float: left;
+    height: 100%;
+    width: 13px;
+}
+.oauth_item_title {
+    display: block;
+    float: left;
+    height: 100%;
+    line-height: 31px;
+    margin-left: 10px;
+}
+.oauth_tips_div {
+    margin-top: 16px;
+}
 /* footer */
 .footer {
     height: 64px;

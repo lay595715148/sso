@@ -70,6 +70,14 @@ class OAuth2 {
             return $clientId;
         }
     }
+    public static function getClientSecret(HttpRequest $request, HttpResponse $response) {
+        $clientSecret = $_POST[OAuth2::HTTP_QUERY_PARAM_CLIENT_SECRET];
+        if(empty($clientSecret)) {
+            return '';
+        } else {
+            return $clientSecret;
+        }
+    }
     /**
      * 
      * @param HttpRequest $request
