@@ -54,7 +54,7 @@ class Token extends UAction {
         $useRefresh = App::get('oauth2.use_refresh_token', true);
 
         $requestType = OAuth2::getRequestType($request, $response);
-        $sUser = OAuth2::getSessionUser($request, $response);
+        //$sUser = OAuth2::getSessionUser($request, $response);
         $responseType = OAuth2::getResponseType($request, $response);
         $clientId = OAuth2::getClientId($request, $response);
         $clientType = $responseType == OAuth2::RESPONSE_TYPE_TOKEN ? OAuth2::CLIENT_TYPE_IMPLICIT : OAuth2::CLIENT_TYPE_WEB;
@@ -68,7 +68,7 @@ class Token extends UAction {
             if($client) {
                 if($requestType == OAuth2::REQUEST_TYPE_TOKEN && $code) {
                     $oauth2code = $this->oauth2CodeService->get($code);
-                    if($oauth2code && $oauth2code['clientId'] == $clientId && $oauth2code['redirectURI'] == $redirectURI) {
+                    if($oauth2code && $oauth2code['clientId'] == $clientId) {
                         $user = $this->userService->get($oauth2code['userid']);
                         $params = $this->genTokenParam($user, $client);
                         $this->template->push($params);
@@ -79,6 +79,7 @@ class Token extends UAction {
                 } else if($requestType == OAuth2::REQUEST_TYPE_PASSWORD && $password) {
                     $user = $this->userService->checkUser($password, $userid, $username);
                     if($user) {
+                        $this->updateSessionUser($user);
                         $params = $this->genTokenParam($user, $client);
                         $this->template->push($params);
                         //$this->template->redirect($redirectURI, $params);

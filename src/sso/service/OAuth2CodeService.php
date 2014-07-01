@@ -33,6 +33,9 @@ class OAuth2CodeService extends Service {
     public function clean() {
         return $this->mongo->remove(array('expires' => array('$lt' => time())));
     }
+    public function expire() {
+        return $this->mongo->remove(array('expires' => array('$gt' => time())));
+    }
     public function add(array $info) {
         $ret = parent::add($info);
         if($ret) {
@@ -53,7 +56,7 @@ class OAuth2CodeService extends Service {
         $oauth2code->setLifetime($lifetime);
         $oauth2code->setUserid($user['id']);
         $oauth2code->setClientId($client['clientId']);
-        $oauth2code->setRedirectURI($client['redirectURI']);
+        //$oauth2code->setRedirectURI($client['redirectURI']);
         $ret = $this->add($oauth2code->toArray());
         if($ret) {
             return $code;

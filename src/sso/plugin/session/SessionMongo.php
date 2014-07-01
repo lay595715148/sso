@@ -1,8 +1,7 @@
 <?php
-namespace sso\store;
+namespace sso\plugin\session;
 
 use lay\store\MongoStore;
-use sso\model\Session;
 
 class SessionMongo extends MongoStore {
     public function __construct() {

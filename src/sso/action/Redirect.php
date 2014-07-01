@@ -31,10 +31,10 @@ class Redirect extends TypicalAction {
      */
     protected $oauth2TokenService;
     public function onCreate() {
+        parent::onCreate();
         $this->clientService = $this->service('sso\service\ClientService');
         $this->oauth2CodeService = $this->service('sso\service\OAuth2CodeService');
         $this->oauth2TokenService = $this->service('sso\service\OAuth2TokenService');
-        parent::onCreate();
     }
     public function onGet() {
         $clientId = 'lay49515';
@@ -51,8 +51,13 @@ class Redirect extends TypicalAction {
         $this->template->push('oauth2code', $oauth2code);
         
         $sso = new SsoAuth($clientId, $clientSecret);
-        $ret = $sso->getToken($type, $options);
-        $this->template->push('ret', $ret);
+        $oauth2token = $sso->getToken($type, $options);
+        $this->template->push('token', $oauth2token);
+        $sso->accessToken = $oauth2token['content']['token'];
+        $sso->refreshToken = $oauth2token['content']['refresh_token'];
+        $ssoclient = $sso->toSsoClient();
+        $userinfo = $ssoclient->getUserInfo();
+        $this->template->push('userinfo', $userinfo);
     }
     public function onPost() {
         $_GET = $_REQUEST;

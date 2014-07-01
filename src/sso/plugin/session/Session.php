@@ -1,9 +1,22 @@
 <?php
-namespace sso\model;
+namespace sso\plugin\session;
 
 use lay\core\Model;
 use lay\core\Expireable;
 
+/**
+ * Session数据模型对象
+ * @author Lay Li
+ * @property string $id
+ * @property string $data
+ * @property int $expires
+ * @method void setId(string $id) 给token属性赋值
+ * @method void setData(string $data) 给data属性赋值
+ * @method void setExpires(int $expires) 给expires属性赋值
+ * @method string getId() 获取id属性值
+ * @method string getData() 获取data属性值
+ * @method int getExpires() 获取expires属性值
+ */
 class Session extends Model implements Expireable {
     public function __construct() {
         parent::__construct(array(
@@ -37,10 +50,10 @@ class Session extends Model implements Expireable {
     }
     
     public function getLifetime() {
-        return App::get('lifetime.scope', 18400);
+        return $this->getExpires() - time();
     }
     public function setLifetime($lifetime) {
-        App::set('lifetime.scope', intval($lifetime));
+        $this->setExpires(time() + intval($lifetime));
     }
 }
 ?>

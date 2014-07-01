@@ -20,9 +20,9 @@ class Info extends UAction {
      */
     protected $oauth2TokenService;
     public function onCreate() {
+        parent::onCreate();
         $this->clientService = $this->service('sso\service\ClientService');
         $this->oauth2TokenService = $this->service('sso\service\OAuth2TokenService');
-        parent::onCreate();
     }
     public function onGet() {
         $_POST = $_REQUEST;
@@ -35,7 +35,7 @@ class Info extends UAction {
         $token = $_REQUEST['token'];
         $userid = $_REQUEST['userid'];
         $oauth2token = $this->oauth2TokenService->get($token);
-        if($oauth2token && $userid == $oauth2token['userid'] && $oauth2token['type'] == OAuth2::TOKEN_TYPE_ACCESS) {
+        if($oauth2token && $oauth2token['type'] == OAuth2::TOKEN_TYPE_ACCESS) {// && $userid == $oauth2token['userid']
             $user = $this->userService->get($oauth2token['userid']);
             if($user) {
                 $params = $this->genInfo($oauth2token, $user);

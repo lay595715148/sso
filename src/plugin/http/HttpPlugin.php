@@ -10,7 +10,7 @@ class HttpPlugin extends AbstractPlugin {
         $this->addHook(Action::H_STOP, array($this, 'isFound'));
     }
     public function isFound($action) {
-        if(!$action) {
+        if(empty($action)) {
             try {
                 @header("HTTP/1.1 404 Not Found");
             } catch (Exception $e) {

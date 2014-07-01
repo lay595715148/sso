@@ -30,7 +30,7 @@ class UserService extends Service {
             $ret = $this->store->get($id);
             //增加存入缓存任务
             if($ret) {
-                EventEmitter::on(App::E_STOP, array($this, 'createInMemcache'), 0, array($ret));
+                EventEmitter::on(App::E_STOP, array($this, 'createInMemcache'), EventEmitter::L_HIGH, array($ret));
             }
         }
         //去除password字段
@@ -42,7 +42,7 @@ class UserService extends Service {
     public function upd($id, array $info) {
         $ret = parent::upd($id, $info);
         if($ret) {
-            EventEmitter::on(App::E_STOP, array($this, 'updateInMemcache'), 0, array($id));
+            EventEmitter::on(App::E_STOP, array($this, 'updateInMemcache'), EventEmitter::L_HIGH, array($id));
         }
         return $ret;
     }
@@ -55,6 +55,13 @@ class UserService extends Service {
         $this->memcache->add($info);
     }
     
+    /**
+     * 验证用户
+     * @param string $password
+     * @param string $userid
+     * @param string $username
+     * @return boolean|array
+     */
     public function checkUser($password, $userid = false, $username = false) {
         if($userid === false && $username === false) {
             return false;

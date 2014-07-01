@@ -4,10 +4,10 @@ namespace sso\plugin\session;
 use lay\core\AbstractPlugin;
 use lay\App;
 use lay\core\Store;
-use sso\service\SessionService;
 use lay\core\Service;
 use lay\core\EventEmitter;
-use sso\model\Session;
+use lay\util\Logger;
+use lay\core\Action;
 
 class SessionPlugin extends AbstractPlugin {
     /**
@@ -15,35 +15,41 @@ class SessionPlugin extends AbstractPlugin {
      * @var SessionService
      */
     private $sessionService;
-    private $session;
+    private $sessionFlag = false;
     public function initilize() {
-        @session_start();
+        session_start();
         $this->addHook(App::H_INIT, array($this, 'initSession'));
-        EventEmitter::on(App::E_DESTROY, array($this, 'updateSession'));
+        $this->addHook(Action::H_STOP, array($this, 'updateSession'));
+        $this->addHook(App::H_STOP, array($this, 'cleanSession'));
+        $this->sessionService = Service::getInstance('sso\plugin\session\SessionService');
     }
     public function initSession() {
-        $id = session_id();
-        $this->sessionService = Service::getInstance('sso\service\SessionService');
-        $session = $this->sessionService->get($id);
+        $session = $this->sessionService->get(session_id());
         if($session) {
-            $_SESSION = $session['data'];
+            $this->sessionFlag = true;
+            session_decode($session['data']);
         }
     }
     public function updateSession() {
         $id = session_id();
-        $data = $_SESSION;
-        $session = new Session();
-        //$session->setLifetime(18400);
-        /* $info = array(
-            'id' => $id,
-            'data' => $data,
-            'expires' => 18400
-        );
-        if($this->session) {
-            
-        } else {
-            
-        } */
+        $data = session_encode();
+        if($data) {
+            $session = new Session();
+            $session->setId($id);
+            $session->setData($data);
+            $session->setLifetime(App::get('lifetime.scope', 2400));
+            if($this->sessionFlag) {
+                $this->sessionService->upd($id, $session->toArray());
+            } else {
+                $this->sessionService->add($session->toArray());
+            }
+        }
+    }
+    /**
+     * 
+     */
+    public function cleanSession() {
+        $this->sessionService->clean();
     }
 }
 ?>

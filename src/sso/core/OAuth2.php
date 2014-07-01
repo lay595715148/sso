@@ -37,6 +37,7 @@ class OAuth2 {
     const HTTP_QUERY_PARAM_ACCESS_TOKEN = 'token';
     const HTTP_QUERY_PARAM_REFRESH_TOKEN = 'refresh_token';
     const HTTP_QUERY_PARAM_USER_ID = 'user_id';
+    const HTTP_QUERY_PARAM_VERIFY_CODE = 'verify_code';
     /**
      *
      * 生成一个code,此code为唯一值。可以是：授权码、访问令牌、刷新令牌

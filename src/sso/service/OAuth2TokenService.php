@@ -33,6 +33,9 @@ class OAuth2TokenService extends Service {
     public function clean() {
         return $this->mongo->remove(array('expires' => array('$lt' => time())));
     }
+    public function expire() {
+        return $this->mongo->remove(array('expires' => array('$gt' => time())));
+    }
     public function add(array $info) {
         $ret = $this->store->add($info);
         if($ret) {

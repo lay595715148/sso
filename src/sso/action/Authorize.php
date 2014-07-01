@@ -40,11 +40,11 @@ class Authorize extends UAction {
      */
     protected $oauth2TokenService;
     public function onCreate() {
+        parent::onCreate();
         $this->clientService = $this->service('sso\service\ClientService');
+        $this->scopeService = $this->service('sso\service\ScopeService');
         $this->oauth2CodeService = $this->service('sso\service\OAuth2CodeService');
         $this->oauth2TokenService = $this->service('sso\service\OAuth2TokenService');
-        $this->scopeService = $this->service('sso\service\ScopeService');
-        parent::onCreate();
     }
     public function onGet() {
         $request = $this->request;
@@ -52,19 +52,24 @@ class Authorize extends UAction {
         //$this->scopeService->add(array('id' => 1000, 'description' => '获得您的昵称、头像、性别'));
         //$this->scopeService->add(array('id' => 1001, 'description' => '读取、发表微博信息'));
         //$this->oauth2CodeService->clean();
+        //$this->oauth2CodeService->expire();
         //$this->oauth2TokenService->clean();
+        //$this->oauth2TokenService->expire();
         //$ret = $this->scopeService->update(array('_id' => array('$gt' => 0)), array('basis' => 1));
         //$ret = $this->scopeService->upd(1000, array('basis' => 1));
         // $this->clientService->mongo();
         // $this->clientService->mysql();
         // $this->clientService->memcache();
+
+        //$this->service('sso\service\SessionService')->remove(array('id' => session_id(), 'data' => '', 'expires' => time() + 8400));
+        //$this->service('sso\service\SessionService')->add(array('id' => session_id(), 'data' => '', 'expires' => time() + 8400));
         // $ret = $this->clientService->upd(52, array('redirectURI' => 'http://sso.laysoft.cn/redirect', 'clientType' => 1));
         //$ret = $this->clientService->upd(53, array('redirectURI' => 'http://sso.laysoft.cn/redirect', 'clientType' => 3));
         //$ret = $this->clientService->update(array('_id' => array('$gt' => 0)), array('scope' => '1000,1001'));
         // Logger::debug($ret);
         // $ret = $this->clientService->get(50);
         //$ret = $this->clientService->add(array("clientId" => "lay45113", "clientName" => "lay", "clientSecret" => "2b53761249254ce6b502f521e5cc0683", "clientType" => 2,'redirectURI' => 'http://sso.laysoft.cn/redirect', 'clientType' => 2, "location" => "", "description" => "", "icon" => ""));
-        $useRefresh = App::get('oauth2.use_refresh_token', true);
+        //$useRefresh = App::get('oauth2.use_refresh_token', true);
         
         $sUser = OAuth2::getSessionUser($request, $response);
         $responseType = OAuth2::getResponseType($request, $response);
@@ -109,11 +114,13 @@ class Authorize extends UAction {
         $loginCount = $_SESSION['loginCount'];
         $requestType = OAuth2::REQUEST_TYPE_POST;
         $userid = $_POST[OAuth2::HTTP_QUERY_PARAM_USER_ID];
-        $userid = $userid ? $userid : false;
+        $userid = $userid ? $userid : false;//false表示不使用此字段作为验证条件
         $username = $_POST[OAuth2::HTTP_QUERY_PARAM_USERNAME];
-        $username = $username ? $username : false;
+        $username = $username ? $username : false;//false表示不使用此字段作为验证条件
         $password = $_POST[OAuth2::HTTP_QUERY_PARAM_PASSWORD];
         $password = $password ? $password : '';
+        $verifyCode = $_POST[OAuth2::HTTP_QUERY_PARAM_VERIFY_CODE];
+        $verifyCode = $verifyCode ? $verifyCode : '';
         
         $sUser = OAuth2::getSessionUser($request, $response);
         $responseType = OAuth2::getResponseType($request, $response);
@@ -130,6 +137,8 @@ class Authorize extends UAction {
                     'response_type' => $responseType,
                     'redirect_uri' => $redirectURI
             );
+            //Logger::debug(array($this->name, $params));
+            //$this->template->push($this->name, $params);
             // 跳转至认证页
             $this->template->redirect($this->name, $params);
         } else if($register) {
@@ -152,9 +161,11 @@ class Authorize extends UAction {
                 } else {
                     //打开检测 登录用户任务
                     $user = $this->userService->checkUser(md5($password), $userid, $username);
-                    if($user) {
+                    if($user && $this->checkVerifyCode($verifyCode)) {
                         //更新SESSION
                         $this->updateSessionUser($user);
+                        //清除验证码,同时也清空登录失败次数
+                        $this->removeVerifyCode();
                         if($responseType == OAuth2::RESPONSE_TYPE_TOKEN) {
                             //生成token
                             $params = $this->genTokenParam($user, $client);
@@ -165,6 +176,9 @@ class Authorize extends UAction {
                             $this->template->redirect($redirectURI, $params);
                         }
                     } else {
+                        //更新登录失败次数
+                        $count = $this->updateLoginCount();
+                        $this->template->push('login_count', $count);
                         //重新登录，可做
                         $this->template->push('error', '用户名密码错误');
                         $this->template->push('login_type', 'authorize');
@@ -211,17 +225,15 @@ class Authorize extends UAction {
         return $params;
     }
     protected function genRefreshTokenParam($user, $client) {
-        $redirectURI = $client['redirectURI'];
         $refreshToken = $this->oauth2TokenService->genRefresh($user, $client);
         $params = array();
         if($refreshToken) {
-            $params['refresh_token'] = $accessToken['token'];
-            $params['refresh_expires'] = $accessToken['expires'];
+            $params['refresh_token'] = $refreshToken['token'];
+            $params['refresh_expires'] = $refreshToken['expires'];
         }
         return $params;
     }
     protected function genCodeParam($user, $client) {
-        $redirectURI = $client['redirectURI'];
         $oauth2code = $this->oauth2CodeService->gen($user, $client);
         if(is_array($oauth2code)) {
             $oauth2code = $oauth2code['code'];

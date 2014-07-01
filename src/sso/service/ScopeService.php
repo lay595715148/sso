@@ -48,7 +48,7 @@ class ScopeService extends Service {
             $ret = $this->store->get($id);
             //增加存入缓存任务
             if($ret) {
-                EventEmitter::on(App::E_STOP, array($this, 'createInMemcache'), 0, array($ret));
+                EventEmitter::on(App::E_STOP, array($this, 'createInMemcache'), EventEmitter::L_HIGH, array($ret));
             }
         }
         return $ret;
@@ -56,7 +56,7 @@ class ScopeService extends Service {
     public function upd($id, array $info) {
         $ret = parent::upd($id, $info);
         if($ret) {
-            EventEmitter::on(App::E_STOP, array($this, 'updateInMemcache'), 0, array($id));
+            EventEmitter::on(App::E_STOP, array($this, 'updateInMemcache'), EventEmitter::L_HIGH, array($id));
         }
         return $ret;
     }

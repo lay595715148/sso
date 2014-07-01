@@ -1,8 +1,7 @@
 <?php
-namespace sso\store;
+namespace sso\plugin\session;
 
 use lay\store\MemcacheStore;
-use sso\model\Session;
 
 class SessionMemcache extends MemcacheStore {
     public function __construct() {

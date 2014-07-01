@@ -35,6 +35,9 @@ return array(
         '/info' => array(
             'classname' => 'sso\action\Info'
         ),
+        '/verify' => array(
+            'classname' => 'sso\action\Verify'
+        ),
         '/redirect' => array(
             'classname' => 'sso\action\Redirect'
         )
