@@ -1,7 +1,5 @@
 <?php
 use lay\util\Logger;
-use config\C;
-use config\T;
 
 return array(
     'logger' => array(Logger::L_ALL & ~Logger::L_INFO, false, 0),
@@ -13,13 +11,23 @@ return array(
         )
     ),
     'plugins' => array(
-        'http' => array(
-            'name' => 'http',
-            'classname' => 'plugin\http\HttpPlugin'
-        ),
         'session' => array(
             'name' => 'session',
             'classname' => 'sso\plugin\session\SessionPlugin'
+        ),
+        'http' => array(
+            'name' => 'http',
+            'classname' => 'plugin\http\HttpPlugin'
+        )
+    ),
+    'routers' => array(
+        array(
+            'rule' => '/^\/user-(?P<id>\d+)\.html$/',
+            //'host' => 'web.lay.laysoft.cn',//多个用|做分隔
+            //'ip' => '127.0.0.1',//多个用|做分隔
+            //'port' => 80,//多个用|做分隔
+            'name' => 'userinfo',
+            'classname' => 'sso\action\route\Userinfo'
         )
     ),
     'actions' => array(
@@ -37,6 +45,9 @@ return array(
         ),
         '/verify' => array(
             'classname' => 'sso\action\Verify'
+        ),
+        '/agreement' => array(
+            'classname' => 'sso\action\Agreement'
         ),
         '/redirect' => array(
             'classname' => 'sso\action\Redirect'

@@ -49,7 +49,7 @@
               <span name="info" class="login-form-span info">检测到您已登录，点击授权并登录</span>
             </div>
             <div class="login-line-info">
-              <span name="username" class="login-form-span name">用户名：name7650</span>
+              <span name="username" class="login-form-span name">用户名：<?=$user['name']?></span>
             </div>
             <?php } else {?>
             <div class="login-line-input">
@@ -136,7 +136,7 @@
                     </script>
                   </div>
                   <div class="oauth_tips_div">
-                    <p class="oauth_tips">授权后表明你已同意 <a href="http://connect.qq.com/agreement_chs" target="_blank">QQ登录服务协议</a></p>
+                    <p class="oauth_tips">授权后表明你已同意 <a href="http://sso.laysoft.cn/agreement" target="_blank">登录服务协议</a></p>
                   </div>
                 </div>
               </div>

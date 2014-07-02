@@ -22,12 +22,15 @@ class SessionPlugin extends AbstractPlugin {
         $this->addHook(Action::H_STOP, array($this, 'updateSession'));
         $this->addHook(App::H_STOP, array($this, 'cleanSession'));
         $this->sessionService = Service::getInstance('sso\plugin\session\SessionService');
+        $this->sessionService->clean();
     }
     public function initSession() {
         $session = $this->sessionService->get(session_id());
         if($session) {
             $this->sessionFlag = true;
             session_decode($session['data']);
+        } else {
+            session_decode('');
         }
     }
     public function updateSession() {
