@@ -2,7 +2,7 @@
 namespace sso\model;
 
 use lay\core\Model;
-use lay\core\Expireable;
+use lay\model\Expireable;
 
 /**
  * OAuth2 Code对象

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<script async="" src="//www.google-analytics.com/analytics.js"></script><script type="text/javascript">
+    var _speedMark = new Date();
+</script>
+<meta name="robots" content="all">
+<meta name="Description" content="QQ互联是腾讯旗下的开放平台，通过QQ互联，网站主或开发者可以申请接入QQ登录，获取登录用户基本资料，用户使用QQ账号登录接入的站点或应用app，通过分享功能，将站点内容分享到QQ、手机QQ、QQ空间、微博等平台，也可获取QQ会员信息、相册、日志、财付通等API授权"><meta name="Keywords" content="QQ互联、腾讯互联、QQ登录、QQ登陆、QQ分享、登录、登陆、开放平台、QQ登陆器、登QQ、登录QQ、授权管理、分享达人"><title>QQ互联</title>
+<link media="all" rel="stylesheet" href="http://qzonestyle.gtimg.cn/open_proj/qqconnect/css/common.css" type="text/css">
+<!--[if lt IE 9]>
+<script type="text/javascript">
+  document.createElement("header");
+  document.createElement("aside");
+  document.createElement("nav");
+  document.createElement("section");
+  document.createElement("article");
+  document.createElement("footer");
+</script>
+<![endif]--><link media="screen" type="text/css" href="http://pub.idqqimg.com/qconn/site/css/agreement.css" rel="stylesheet">
+</head>
+<body>
+<div id="yellowTip" style="display: block;">
+  <div id="yellowTipText">QQ互联数据正在迁移至Open中，27日中午12点开始至28号当天管理中心暂时无法查看管理互联应用，移动侧QQ登录功能创建应用请到open.qq.com使用。</div>
+  <a id="yellowTipClose" href="#"></a>
+</div>
+<!--页面header-->
+<header class="header">
+  <nav>
+    <a href="/" class="logo"></a>
+    <!-- <div class="searchBar">
+      <input type="text" name="searchBar" id="searchBar" value="搜索资料库/API" />
+    </div> -->
+
+    <ul class="userInfo" id="userInfo">
+      <li>
+        <a href="javascript:void(0);" id="login" hidefocus="false">登录</a>
+        <a href="javascript:void(0);" class="subNav" id="subNav"></a>
+        <a href="javascript:void(0);" id="subNav_hover"></a>
+        <ul id="personal_list">
+            <li><a onclick="try{pgvSendClick(28);}catch(e){}setTimeout(function(){window.location=&quot;/toc/auth_manager?from=index&quot;},200);">授权管理</a><script>typeof (_taadHolders) == 'undefined' ? _taadHolders = [] : '';_taadHolders.push('28');</script></li>
+            <!-- <li><a href="/toc/nbsharer">分享达人</a></li> -->
+            <li><a id="logout" href="javascript:void(0)">退出</a></li>
+        </ul>
+      </li>
+    </ul>
+
+     <!--start navigator-->
+    <ul class="navigator">
+      <li id="nav_index" class="current"><a onclick="try{pgvSendClick(21);}catch(e){}QC.reportBNL(11120,1);setTimeout(function(){window.location=&quot;/&quot;},200);" hidefocus="false">首页</a><script>_taadHolders.push('21');</script></li>
+      <li id="nav_qqlogin"><a onclick="try{pgvSendClick(22);}catch(e){}QC.reportBNL(11120,2);setTimeout(function(){window.location=&quot;/intro/login&quot;},200);" hidefocus="false">QQ登录</a><script>_taadHolders.push('22');</script></li>
+      <li id="nav_intro"><a onclick="try{pgvSendClick(23);}catch(e){}QC.reportBNL(11120,3);setTimeout(function(){window.location=&quot;/intro/wpa&quot;},200);" hidefocus="false">功能组件</a><script>_taadHolders.push('23');</script></li>
+        <li id="nav_manage"><a onclick="try{pgvSendClick(24);}catch(e){}QC.reportBNL(11120,4);setTimeout(function(){window.location=&quot;/manage/login&quot;},200);" hidefocus="false">管理中心</a><script>_taadHolders.push('24');</script></li>
+      <li><a onclick="try{pgvSendClick(25);}catch(e){}QC.reportBNL(11120,5);setTimeout(function(){window.location=&quot;http://wiki.connect.qq.com/&quot;},200);" hidefocus="false">文档资料</a><script>_taadHolders.push('25');</script></li>
+      <li><a onclick="try{pgvSendClick(26);}catch(e){}QC.reportBNL(11120,6)" href="http://bbs.open.qq.com/forum.php?gid=110" hidefocus="false" target="_blank">论坛</a><script>_taadHolders.push('26');</script></li>
+      <li><a onclick="try{pgvSendClick(27);}catch(e){}QC.reportBNL(11120,7);setTimeout(function(){window.location=&quot;http://wiki.connect.qq.com/faq&quot;},200);" hidefocus="false">FAQ</a><script>_taadHolders.push('27');</script></li>
+    </ul>
+
+  </nav>
+</header>
+
+<script type="text/javascript" src="http://pub.idqqimg.com/lib/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://qzonestyle.gtimg.cn/open/connect/portal/js/common.all.js?t=20131230001"></script><div class="page">
+    <div class="page_main">
+        
+        <div class="page_content">
+            <article>
+            <header>
+                <h2>QQ登录服务协议</h2>
+            </header>
+            <section class="important">
+                【首部及导言】
+                <p>欢迎您使用QQ登录服务！</p>
+                <p>为使用QQ登录服务，您应当阅读并遵守《QQ登录服务协议》（以下简称“本协议”）、《腾讯服务协议》、《QQ号码规则》。请您务必审慎阅读、充分理解各条款内容，特别是免除或限制责任的相应条款，以及开通或使用某项服务的单独协议，并选择接受或不接受。限制或免除责任条款可能以加粗形式提示您注意。</p>
+                <p>除非您已阅读并接受本协议所有条款，否则您无权使用QQ登录服务（以下简称“本服务”）。您对本服务的任何登录、查看或使用QQ号码登录、使用第三方网站、应用或服务等行为即视为您已阅读并同意本协议的约束。</p>
+                <p>如果您未满18周岁，请在法定监护人的陪同下阅读本协议，并特别注意未成年人使用条款。</p>
+            </section>
+
+            <section>
+                <h3>一、【协议的范围】</h3>
+                <p>1.1【协议适用主体范围】</p>
+                <p>本协议是您与腾讯、第三方之间关于您使用QQ登录服务所订立的协议。</p>
+                <p>1.2【本服务内容】</p>
+                <p>本协议项下的QQ登录服务是指腾讯、第三方向用户提供的使用QQ号码登录、使用第三方网站、应用或服务等的服务（以下简称“本服务”）。（本协议中的“第三方”若无特别说明，均指向通过本服务登录、使用具体网站、应用或服务等的用户，提供相应具体网站、应用或其他服务的个人、法人或其他组织。）</p>
+                <p>1.3【协议关系及冲突条款】</p>
+                <p>本协议被视为《腾讯服务协议》（链接地址：<a href="http://www.qq.com/contract.shtml" target="_blank">http://www.qq.com/contract.shtml</a>，若链接地址变更的，则以变更后的链接地址所对应的内容为准；其他链接地址变更的情形，均适用前述约定。）及《QQ号码规则》（链接地址：<a href="http://zc.qq.com/chs/agreement1_chs.html" target="_blank">http://zc.qq.com/chs/agreement1_chs.html</a>）的补充协议，是其不可分割的组成部分，与其构成统一整体。本协议与上述内容存在冲突的，以本协议为准。
+                </p><p>本协议内容同时包括腾讯可能不断发布的关于本服务的相关协议、业务规则等内容。上述内容一经正式发布，即为本协议不可分割的组成部分，您同样应当遵守。</p>
+            </section>
+
+            <section>
+                <h3>二、【用户个人信息保护】</h3>
+                <p>2.1为使用本服务，您须向第三方提供部分必要的您的个人信息，比如您的QQ头像、昵称等，如果您不同意，您将无法使用本服务，也请您立即停止使用本服务。否则，您对本服务的任何登录、查看或任何使用QQ号码登录、使用第三方网站、应用或服务等的行为，即视为您同意前述第三方对于您的个人信息获取的约定。</p>
+                <p>2.2您在使用本服务时，可能需向第三方提供您的其他个人信息、将您的信息或操作进行分享、允许第三方向您或您的空间或微博等账户等同步各种信息等，请您仔细阅读授权页面并决定授权范围。</p>
+            </section>
+
+            <section>
+                <h3>三、【使用规则】</h3>
+                <p>3.1您在使用本服务时，您须通过腾讯提供的技术接口、登录页面及其他合法通道等进行QQ帐号和密码输入、个人信息授权等操作，否则，可能会导致您QQ帐号或密码泄漏或其他损失的，前述损失您应自行承担。</p>
+                <p>3.2 第三方保证提供的具体网站、应用或其他服务的合法性、安全性以及真实性，若因任何第三方原因，造成您损失的，第三方会承担全部责任。</p>
+                <p>3.3 您通过本服务使用QQ帐号登录、使用的网站、应用或服务等，应遵循您与第三方之间的协议、约定或第三方相关的规则等。
+                </p><p>3.4 您理解并同意：腾讯在本服务中仅提供了登录接口的技术服务，您通过本服务使用QQ帐号登录、使用的网站、应用或服务等，均是由第三方提供的。腾讯无法保证第三方网站、应用或服务等的合法性、安全性以及真实性，第三方网站、应用或服务等的质量和安全等由第三方独立负责、承担，您会自行进行判断、甄别、选择，并自行承担相关损失、责任。若您因使用第三方网站、应用或服务等产生的任何纠纷，您应自行与第三方协商或通过其他合法途径解决，腾讯无需对此向您承担任何责任。</p>
+            </section>
+
+            <section>
+                <h3>四、用户行为规范</h3>
+                <p>4.1【五不准】</p>
+                <p>您在使用本服务时不得利用本服务从事以下行为，包括但不限于：</p>
+                   <p>（1）发布、传送、传播、储存违反国家法律、危害国家安全统一、社会稳定、公序良俗、社会公德以及侮辱、诽谤、淫秽、暴力的内容；</p>
+                   <p>（2）发布、传送、传播、储存侵害他人名誉权、肖像权、知识产权、商业秘密等合法权利的内容；</p>
+                   <p>（3）虚构事实、隐瞒真相以误导、欺骗他人；</p>
+                   <p>（4）发表、传送、传播广告信息及垃圾信息；</p>
+                   <p>（5）从事其他违反法律法规、政策及公序良俗、社会公德等的行为。</p>
+                <p>4.2【用户禁止行为】</p>
+                <p>本服务仅供您个人使用，除非经腾讯书面许可，您不得进行以下行为：</p>
+                <p>（1）通过任何方式搜集本服务中其他用户的用户名、电子邮件等相关信息，并以发送垃圾邮件、连锁邮件、垃圾短信、即时消息等方式干扰、骚扰其他用户；</p>
+                <p>（2）通过本服务发布包含广告、宣传、促销等内容的信息；</p>
+                <p>（3）将本服务再次许可他人使用；</p>
+                <p>（4）其他未经腾讯书面许可的行为。</p>
+                <p>4.3【对自己行为负责】</p>
+                <p>您充分了解并同意，您必须为自己注册帐号下的一切行为负责，包括您所发表的任何内容以及由此产生的任何后果。您应对本服务中的内容自行加以判断，并承担因使用内容而引起的所有风险，包括因对内容的正确性、完整性或实用性的依赖而产生的风险。腾讯无法且不会对因前述风险而导致的任何损失或损害承担责任。</p> 
+                <p>4.4 【违约处理】</p>
+                <p>如果腾讯发现或收到他人举报您发布的信息违反前述约定或本协议其他约定的，腾讯有权进行独立判断并采取技术手段予以删除、屏蔽或断开相关的信息链接。同时，腾讯有权视您的行为性质，采取包括但不限于暂停或终止本服务、追究法律责任等措施。</p>
+                <p>4.5 【对他方损害的处理】</p>
+                <p>您违反本条约定，导致任何他方损害的，您应当独立承担责任；腾讯因此遭受损失的，您也应当一并赔偿。</p>
+            </section>
+
+            <section>
+                <h3>五、【其他】</h3>
+                <p>5.1 【协议的生效与变更】</p>
+                <p>您使用本服务即视为您已阅读并同意受本协议的约束。腾讯有权在必要时修改本协议条款。您可以在相关页面中查阅最新的协议条款。本协议条款变更后，如果您继续使用本服务，即视为您已接受修改后的协议。如果您不接受修改后的协议，应当停止使用本服务。</p>
+                <p>5.2 【协议签订地】</p>
+                <p>本协议签订地为中华人民共和国广东省深圳市南山区。</p>
+                <p>5.3 【适用法律】</p>
+                <p>本协议的成立、生效、履行、解释及纠纷解决，适用中华人民共和国大陆地区法律（不包括冲突法）。</p>
+                <p>5.4 【争议解决】</p>
+                <p>若您、腾讯或第三方之间发生任何纠纷或争议，各方首先应友好协商解决；协商不成的，三方均同意将纠纷或争议提交本协议签订地有管辖权的人民法院管辖。</p>
+                <p>5.5 【条款标题】</p>
+                <p>本协议所有条款的标题仅为阅读方便，本身并无实际涵义，不能作为本协议涵义解释的依据。</p>
+                <p>5.6 【条款效力】</p>
+                <p>本协议条款无论因何种原因部分无效或不可执行，其余条款仍有效，对双方具有约束力。（正文完）</p>
+            </section>
+            </article>
+        </div>
+    </div>
+</div>
+
+    <!-- 脚本 开始 -->
+    <script type="text/javascript" src="http://qzonestyle.gtimg.cn/open/connect/portal/js/qzfl_for_qzone.js"></script>
+    <script type="text/javascript" src="http://qzonestyle.gtimg.cn/open/connect/portal/js/old_common.js"></script>
+    <script type="text/javascript" src="http://qzonestyle.gtimg.cn/open/connect/portal/js/popup.js"></script>
+    <script type="text/javascript" src="http://qzonestyle.gtimg.cn/open/connect/portal/js/intro/jssdk.js?t=20130503001"></script>
+    <!-- 脚本 结束 -->
+<!--页脚部分-->
+<footer>
+  <!--页脚链接-->
+  <section class="links">
+    <a href="http://connect.qq.com/about">联系我们</a>
+    <a href="http://open.qq.com/">开放平台</a>
+    <a href="http://user.qzone.qq.com/1240081547">认证空间</a>
+    <a href="http://e.t.qq.com/QQConnect">官方微博</a>
+    <a href="http://b.qq.com/webc.htm?new=0&amp;sid=800030681&amp;eid=2188z8p8p8p8P8p8x8z8q&amp;o=opensns.qq.com&amp;q=7" target="_blank">在线客服</a>
+    <a href="http://support.qq.com/discuss/780_1.shtml" target="_blank" id="feedback">反馈建议</a>
+  </section>
+
+  <!--版权声明-->
+  <section class="copyright">
+  Copyright © 1998 - 2014 Tencent. <a href="http://www.tencent.com/en-us/le/copyrightstatement.shtml" target="_blank" class="c_tx2">All Rights Reserved.</a><br>
+  腾讯公司 版权所有
+  </section>
+</footer>
+
+<!--对话框部分-->
+<section class="dialog" id="dialog">
+    <div class="dialogContentWrapper">
+         <h2>titile</h2>
+         <div class="dialogContent" id="dialogContent"></div>
+    </div>
+</section>
+<script type="text/javascript" src="http://tajs.qq.com/stats?sId=8790006&amp;logo=255" charset="UTF-8"></script><script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-45101267-1', 'qq.com');
+ga('send', 'pageview');
+</script>
+
+
+</body></html>

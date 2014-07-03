@@ -2,7 +2,7 @@
 namespace sso\plugin\session;
 
 use lay\core\Model;
-use lay\core\Expireable;
+use lay\model\Expireable;
 
 /**
  * Session数据模型对象

@@ -3,7 +3,7 @@
  * 可设置失效时间的接口
  * @author Lay Li
  */
-namespace lay\core;
+namespace lay\model;
 
 if(! defined('INIT_LAY')) {
     exit();

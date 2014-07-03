@@ -46,7 +46,7 @@ class OAuth2TokenService extends Service {
     public function addInMongo($app, $info) {
         $this->mongo->add($info);
     }
-    public function gen($user, $client) {
+    public function gen($user, $client, $scope = '') {
         $lifetime = App::get('oauth2.lifetime.token', 1800);
         $accessToken = OAuth2::generateCode();
         
@@ -64,7 +64,7 @@ class OAuth2TokenService extends Service {
             return false;
         }
     }
-    public function genRefresh($user, $client) {
+    public function genRefresh($user, $client, $scope = '') {
         $lifetime = App::get('oauth2.lifetime.refresh_token', 18400);
         $refreshToken = OAuth2::generateCode();
         $oauth2token = new OAuth2Token();

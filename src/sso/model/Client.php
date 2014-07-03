@@ -2,9 +2,10 @@
 namespace sso\model;
 
 use lay\core\Model;
-use lay\core\Expireable;
+use lay\model\Expireable;
 use lay\App;
-use lay\core\Increment;
+use lay\model\Increment;
+use lay\model\Secondary;
 
 /**
  * 客户端对象
@@ -40,7 +41,7 @@ use lay\core\Increment;
  * @method string getDescription() 获取description属性值
  * @method string getIcon() 获取icon属性值
  */
-class Client extends Model implements Expireable, Increment {
+class Client extends Model implements Expireable, Increment, Secondary {
     public function __construct() {
         parent::__construct(array(
             'id' => 0,
@@ -92,12 +93,17 @@ class Client extends Model implements Expireable, Increment {
     public function primary() {
         return '_id';
     }
+    
+    public function second() {
+        return 'clientId';
+    }
+    
     public function sequence() {
         return '_id';
     }
     
     public function getLifetime() {
-        return App::get('lifetime.client', 1800);
+        return App::get('lifetime.client', 18400);
     }
     public function setLifetime($lifetime) {
         App::set('lifetime.client', intval($lifetime));

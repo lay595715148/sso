@@ -44,10 +44,9 @@ class ClientService extends Service {
         return $ret ? true : false;
     }
     public function checkClient($clientId, $clientType = false, $redirectURI = false, $clientSecret = false) {
+        /* 
         $query = array();
-        if($clientId !== false) {
-            $query['clientId'] = $clientId;
-        }
+        $query['clientId'] = $clientId;
         if($clientType !== false) {
             $query['clientType'] = $clientType;
         }
@@ -57,17 +56,34 @@ class ClientService extends Service {
         if($clientSecret !== false) {
             $query['clientSecret'] = $clientSecret;
         }
-        $ret = $this->store->select($query, array());
+        $ret = $this->store->select($query);
         if($ret) {
             return $this->store->toOne();
         } else {
             return false;
+        } */
+        
+        $ret = $this->get($clientId);
+        if(empty($ret)) {
+            return false;
+        } else if($clientType !== false && $clientType != $ret['clientType']) {
+            return false;
+        } else if($redirectURI !== false && $redirectURI != $ret['redirectURI']) {
+            return false;
+        } else if($clientSecret !== false && $clientSecret != $ret['clientSecret']) {
+            return false;
         }
+        return $ret;
     }
     public function get($id) {
         $ret = $this->memcache->get($id);
         if(empty($ret)) {
-            $ret = $this->store->get($id);
+            if(is_string($id)) {
+                $ret = $this->store->select(array('clientId' => $id));
+                $ret = $this->store->toOne();
+            } else {
+                $ret = $this->store->get($id);
+            }
             if($ret) {
                 EventEmitter::on(App::E_STOP, array($this, 'createInMemcache'), EventEmitter::L_HIGH, array($ret));
             }
@@ -81,13 +97,22 @@ class ClientService extends Service {
         }
         return $ret;
     }
+    public function del($id) {
+        $ret = parent::del($id);
+        if($ret) {
+            EventEmitter::on(App::E_STOP, array($this, 'removeInMemcache'), EventEmitter::L_HIGH, array($id));
+        }
+        return $ret;
+    }
     public function updateInMemcache($app, $id) {
         $info = $this->store->get($id);
         $this->memcache->upd($id, $info);
     }
     public function createInMemcache($app, $info) {
-        Logger::info($info);
         $this->memcache->add($info);
+    }
+    public function removeInMemcache($app, $id) {
+        $this->memcache->del($id);
     }
     /**
      * 测试mongo

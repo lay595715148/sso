@@ -44,13 +44,12 @@ class Redirect extends TypicalAction {
         $options = array();
         $code = $_REQUEST['code'];
         $options['code'] = $code;
-        $options['redirectURI'] = $redriectURI;
         
         $oauth2code = $this->oauth2CodeService->get($code);
         $this->template->push('code', $code);
         $this->template->push('oauth2code', $oauth2code);
         
-        $sso = new SsoAuth($clientId, $clientSecret);
+        $sso = new SsoAuth($clientId, $clientSecret, $redriectURI);
         $oauth2token = $sso->getToken($type, $options);
         $this->template->push('token', $oauth2token);
         $sso->accessToken = $oauth2token['content']['token'];

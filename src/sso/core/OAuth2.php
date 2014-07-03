@@ -35,9 +35,12 @@ class OAuth2 {
     const HTTP_QUERY_PARAM_USERNAME = 'username';
     const HTTP_QUERY_PARAM_PASSWORD = 'password';
     const HTTP_QUERY_PARAM_ACCESS_TOKEN = 'token';
+    const HTTP_QUERY_PARAM_ACCESS_TOKEN_EXPIRES = 'expires_in';
     const HTTP_QUERY_PARAM_REFRESH_TOKEN = 'refresh_token';
     const HTTP_QUERY_PARAM_USER_ID = 'user_id';
     const HTTP_QUERY_PARAM_VERIFY_CODE = 'verify_code';
+    const HTTP_QUERY_PARAM_SCOPE = 'scope';
+    const HTTP_QUERY_PARAM_STATE = 'state';
     /**
      *
      * 生成一个code,此code为唯一值。可以是：授权码、访问令牌、刷新令牌
@@ -79,6 +82,14 @@ class OAuth2 {
             return $clientSecret;
         }
     }
+    public static function getRequestScope(HttpRequest $request, HttpResponse $response) {
+        $scope = $_REQUEST[OAuth2::HTTP_QUERY_PARAM_SCOPE];
+        if(empty($scope)) {
+            return '';
+        } else {
+            return $scope;
+        }
+    }
     /**
      * 
      * @param HttpRequest $request
@@ -98,9 +109,6 @@ class OAuth2 {
             $user->setNick($nick);
             return $user->toArray();
         }
-    }
-    public static function unsetSessionUser(HttpRequest $request, HttpResponse $response) {
-        
     }
     public static function getRequestType(HttpRequest $request, HttpResponse $response) {
         if($_REQUEST[OAuth2::HTTP_QUERY_PARAM_GRANT_TYPE]) {

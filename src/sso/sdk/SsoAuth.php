@@ -59,6 +59,11 @@ class SsoAuth {
      */
     public $clientSecret;
     /**
+     * redirect URI
+     * @var string
+     */
+    public $redirectURI;
+    /**
      * access token
      * 
      * @var string
@@ -113,9 +118,10 @@ class SsoAuth {
      * @param string $accessToken
      * @param string $refreshToken
      */
-    public function __construct($clientId, $clientSecret, $accessToken = '', $refreshToken = '') {
+    public function __construct($clientId, $clientSecret, $redirectURI, $accessToken = '', $refreshToken = '') {
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
+        $this->redirectURI = $redirectURI;
         $this->accessToken = $accessToken;
         $this->refreshToken = $refreshToken;
         $this->userAgent = $_SERVER['HTTP_USER_AGENT'];
@@ -127,16 +133,19 @@ class SsoAuth {
      *            授权后的回调地址
      * @param string $responseType
      *            支持的值包括 code 和token 默认值为code
+     * @param string $scope
+     *            申请scope权限所需参数，可一次申请多个scope权限，用逗号分隔。
      * @param string $state
-     *            用于保持请求和回调的状态。在回调时,会在Query Parameter中回传该参数
+     *            用于保持请求和回调的状态，在回调时，会在Query Parameter中回传该参数。开发者可以用这个参数验证请求有效性，也可以记录用户请求授权页前的位置。这个参数可用于防止跨站请求伪造（CSRF）攻击
      * @return array
      */
-    public function getAuthorizeURL($redirectURI, $responseType = '', $state = '1q2w3e') {
+    public function getAuthorizeURL($responseType = '', $scope = '', $state = '1q2w3e') {
         $responseType = $responseType ? $responseType : self::RESPONSE_TYPE_CODE;
         $params = array();
         $params['client_id'] = $this->clientId;
-        $params['redirectURI'] = $redirectURI;
+        $params['redirect_uri'] = $this->redirectURI;
         $params['response_type'] = $responseType;
+        $params['scope'] = $scope;
         $params['state'] = $state;
         return $this->authorizeURL . '?' . http_build_query($params);
     }
@@ -163,7 +172,7 @@ class SsoAuth {
         } else if($type === 'code') {
             $params['grant_type'] = 'authorization_code';
             $params['code'] = $options['code'];
-            $params['redirect_uri'] = $options['redirectURI'];
+            $params['redirect_uri'] = $this->redirectURI;
         }
         
         $response = $this->http($this->tokenURL, 'POST', $params);
@@ -181,7 +190,7 @@ class SsoAuth {
      *
      * @return string API results
      */
-    protected function fopen($url, $fields = null) {
+    protected function open($url, $fields = null) {
         $path = $url . "?" . ((is_array($fields)) ? http_build_query($fields) : $fields);
         $stream = $this->sslVerifyPeer ? fsockopen($path, 'r') : fopen($path, 'r');
         $response = stream_get_contents($stream);
@@ -229,7 +238,7 @@ class SsoAuth {
         return $response;
     }
     public function toSsoClient() {
-        return new SsoClient($this->clientId, $this->clientSecret, $this->accessToken, $this->refreshToken);
+        return new SsoClient($this->clientId, $this->clientSecret, $this->redirectURI, $this->accessToken, $this->refreshToken);
     }
 }
 ?>

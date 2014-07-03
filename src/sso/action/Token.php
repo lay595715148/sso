@@ -53,6 +53,7 @@ class Token extends UAction {
         $refreshToken = $_REQUEST[OAuth2::HTTP_QUERY_PARAM_REFRESH_TOKEN];
         $useRefresh = App::get('oauth2.use_refresh_token', true);
 
+        $scope = OAuth2::getRequestScope($request, $response);
         $requestType = OAuth2::getRequestType($request, $response);
         //$sUser = OAuth2::getSessionUser($request, $response);
         $responseType = OAuth2::getResponseType($request, $response);
@@ -70,9 +71,8 @@ class Token extends UAction {
                     $oauth2code = $this->oauth2CodeService->get($code);
                     if($oauth2code && $oauth2code['clientId'] == $clientId) {
                         $user = $this->userService->get($oauth2code['userid']);
-                        $params = $this->genTokenParam($user, $client);
+                        $params = $this->genTokenParam($user, $client, $scope);
                         $this->template->push($params);
-                        //$this->template->redirect($redirectURI, $params);
                     } else {
                         $this->errorResponse('invalid_grant');
                     }
@@ -80,9 +80,8 @@ class Token extends UAction {
                     $user = $this->userService->checkUser($password, $userid, $username);
                     if($user) {
                         $this->updateSessionUser($user);
-                        $params = $this->genTokenParam($user, $client);
+                        $params = $this->genTokenParam($user, $client, $scope);
                         $this->template->push($params);
-                        //$this->template->redirect($redirectURI, $params);
                     } else {
                         $this->errorResponse('invalid_grant');
                     }
@@ -90,9 +89,8 @@ class Token extends UAction {
                     $oauth2token = $this->oauth2TokenService->get($refreshToken);
                     if($oauth2token && $oauth2token['type'] == OAuth2::TOKEN_TYPE_REFRESH) {
                         $user = $this->userService->get($oauth2token['userid']);
-                        $params = $this->genAccessTokenParam($user, $client);
+                        $params = $this->genAccessTokenParam($user, $client, $scope);
                         $this->template->push($params);
-                        //$this->template->redirect($redirectURI, $params);
                     } else {
                         $this->errorResponse('invalid_grant');
                     }
@@ -107,17 +105,17 @@ class Token extends UAction {
         }
     }
     
-    protected function genTokenParam($user, $client) {
-        $params = $this->genAccessTokenParam($user, $client);
+    protected function genTokenParam($user, $client, $scope = '') {
+        $params = $this->genAccessTokenParam($user, $client, $scope);
         if(App::get('use_refresh_token', true)) {
-            $p = $this->genRefreshTokenParam($user, $client);
+            $p = $this->genRefreshTokenParam($user, $client, $scope);
             $params = array_merge($params, $p);
         }
         return $params;
     }
-    protected function genAccessTokenParam($user, $client) {
+    protected function genAccessTokenParam($user, $client, $scope = '') {
         $redirectURI = $client['redirectURI'];
-        $accessToken = $this->oauth2TokenService->gen($user, $client);
+        $accessToken = $this->oauth2TokenService->gen($user, $client, $scope);
         $params = array();
         if($accessToken) {
             $params['userid'] = $accessToken['userid'];
@@ -126,9 +124,9 @@ class Token extends UAction {
         }
         return $params;
     }
-    protected function genRefreshTokenParam($user, $client) {
+    protected function genRefreshTokenParam($user, $client, $scope = '') {
         $redirectURI = $client['redirectURI'];
-        $refreshToken = $this->oauth2TokenService->genRefresh($user, $client);
+        $refreshToken = $this->oauth2TokenService->genRefresh($user, $client, $scope);
         $params = array();
         if($refreshToken) {
             $params['refresh_token'] = $refreshToken['token'];
