@@ -13,6 +13,8 @@ use lay\App;
 use lay\util\Collector;
 use lay\store\MemcacheStore;
 use demo\model\DemoUser;
+use sso\store\redis\ClientRedis;
+use lay\core\Action;
 
 class ClientService extends Service {
     /**
@@ -26,6 +28,11 @@ class ClientService extends Service {
      */
     protected $memcache;
     /**
+     * ClientRedis
+     * @var ClientRedis
+     */
+    protected $redis;
+    /**
      * DemoStore
      * @var DemoStore
      */
@@ -37,6 +44,7 @@ class ClientService extends Service {
     protected $store;
     public function __construct() {
         $this->memcache = Store::getInstance('sso\store\ClientMemcache');
+        $this->redis = Store::getInstance('sso\store\redis\ClientRedis');
         parent::__construct(Store::getInstance('sso\store\ClientMongo'));
     }
     public function update($query, $info) {
@@ -76,7 +84,8 @@ class ClientService extends Service {
         return $ret;
     }
     public function get($id) {
-        $ret = $this->memcache->get($id);
+        //$ret = $this->memcache->get($id);
+        $ret = $this->redis->get($id);
         if(empty($ret)) {
             if(is_string($id)) {
                 $ret = $this->store->select(array('clientId' => $id));
@@ -85,22 +94,26 @@ class ClientService extends Service {
                 $ret = $this->store->get($id);
             }
             if($ret) {
-                EventEmitter::on(App::E_STOP, array($this, 'createInMemcache'), EventEmitter::L_HIGH, array($ret));
+                EventEmitter::on(App::E_STOP, array($this, 'createInRedis'), EventEmitter::L_HIGH, array($ret));
+                //EventEmitter::on(App::E_STOP, array($this, 'createInMemcache'), EventEmitter::L_HIGH, array($ret));
             }
         }
         return $ret;
     }
     public function upd($id, array $info) {
+        //$ret = $this->redis->upd($id, $info);
         $ret = parent::upd($id, $info);
         if($ret) {
-            EventEmitter::on(App::E_STOP, array($this, 'updateInMemcache'), EventEmitter::L_HIGH, array($id));
+            EventEmitter::on(Action::E_STOP, array($this, 'updateInRedis'), EventEmitter::L_HIGH, array($id));
+            //EventEmitter::on(Action::E_STOP, array($this, 'updateInMemcache'), EventEmitter::L_HIGH, array($id));
         }
         return $ret;
     }
     public function del($id) {
         $ret = parent::del($id);
         if($ret) {
-            EventEmitter::on(App::E_STOP, array($this, 'removeInMemcache'), EventEmitter::L_HIGH, array($id));
+            EventEmitter::on(App::E_STOP, array($this, 'removeInRedis'), EventEmitter::L_HIGH, array($id));
+            //EventEmitter::on(App::E_STOP, array($this, 'removeInMemcache'), EventEmitter::L_HIGH, array($id));
         }
         return $ret;
     }
@@ -113,6 +126,16 @@ class ClientService extends Service {
     }
     public function removeInMemcache($app, $id) {
         $this->memcache->del($id);
+    }
+    public function updateInRedis($app, $id) {
+        $info = $this->store->get($id);
+        $this->redis->upd($id, $info);
+    }
+    public function createInRedis($app, $info) {
+        $this->redis->add($info);
+    }
+    public function removeInRedis($app, $id) {
+        $this->redis->del($id);
     }
     /**
      * 测试mongo

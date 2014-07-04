@@ -57,10 +57,10 @@ class User extends Model implements Expireable {
     }
     
     public function setLifetime($lifetime) {
-        App::set('lifetime.user', $lifetime);
+        App::set('lifetime.user', abs(intval($lifetime)));
     }
     public function getLifetime() {
-        return App::get('lifetime.user', 0);
+        return abs(intval(App::get('lifetime.user', 0)));
     }
 }
 ?>

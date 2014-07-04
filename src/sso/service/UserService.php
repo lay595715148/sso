@@ -8,6 +8,7 @@ use sso\store\UserMemcache;
 use lay\util\Logger;
 use lay\core\EventEmitter;
 use lay\App;
+use sso\store\redis\UserRedis;
 
 class UserService extends Service {
     /**
@@ -16,21 +17,28 @@ class UserService extends Service {
      */
     protected $memcache;
     /**
+     * UserRedis
+     * @var UserRedis
+     */
+    protected $redis;
+    /**
      * UserMongo
      * @var UserMongo
      */
     protected $store;
     public function __construct() {
         $this->memcache = Store::getInstance('sso\store\UserMemcache');
+        $this->redis = Store::getInstance('sso\store\redis\UserRedis');
         parent::__construct(Store::getInstance('sso\store\UserMongo'));
     }
     public function get($id) {
-        $ret = $this->memcache->get($id);
+        //$ret = $this->memcache->get($id);
+        $ret = $this->redis->get($id);
         if(empty($ret)) {
             $ret = $this->store->get($id);
             //增加存入缓存任务
             if($ret) {
-                EventEmitter::on(App::E_STOP, array($this, 'createInMemcache'), EventEmitter::L_HIGH, array($ret));
+                EventEmitter::on(App::E_STOP, array($this, 'createInRedis'), EventEmitter::L_HIGH, array($ret));
             }
         }
         //去除password字段
@@ -40,19 +48,30 @@ class UserService extends Service {
         return $ret;
     }
     public function upd($id, array $info) {
+        //$ret = $this->redis->upd($id, $info);
         $ret = parent::upd($id, $info);
         if($ret) {
-            EventEmitter::on(App::E_STOP, array($this, 'updateInMemcache'), EventEmitter::L_HIGH, array($id));
+            EventEmitter::on(Action::E_STOP, array($this, 'updateInRedis'), EventEmitter::L_HIGH, array($id));
         }
         return $ret;
+    }
+    public function del($id) {
+        $ret = $this->redis->del($id);
+        return parent::del($id);
     }
     public function updateInMemcache($app, $id) {
         $info = $this->store->get($id);
         $this->memcache->upd($id, $info);
     }
+    public function updateInRedis($app, $id) {
+        $info = $this->store->get($id);
+        $this->redis->upd($id, $info);
+    }
     public function createInMemcache($app, $info) {
-        Logger::info($info);
         $this->memcache->add($info);
+    }
+    public function createInRedis($app, $info) {
+        $this->redis->add($info);
     }
     
     /**

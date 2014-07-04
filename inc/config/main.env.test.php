@@ -2,7 +2,7 @@
 use lay\util\Logger;
 
 return array(
-    'logger' => array(Logger::L_ALL & ~Logger::L_INFO, false, 0),
+    'logger' => array(Logger::L_ALL, false, 0),
     'appname' => 'sso',
     'theme' => 'default',
     'themes' => array(
@@ -51,6 +51,9 @@ return array(
         ),
         '/redirect' => array(
             'classname' => 'sso\action\Redirect'
+        ),
+        '/test' => array(
+            'classname' => 'sso\test\TestAction'
         )
     ),
     'stores' => array(
@@ -67,6 +70,14 @@ return array(
             'username' => 'root',
             'password' => 'yuiopas',
             'schema' => 'laysoft'
+        ),
+        'memcache' => array(
+            'host' => '127.0.0.1',
+            'port' => 11211
+        ),
+        'redis' => array(
+            'host' => '192.168.159.127',
+            'port' => 6379
         ),
         'mongo' => array(
             'host' => '127.0.0.1',

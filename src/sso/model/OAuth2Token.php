@@ -65,7 +65,7 @@ class OAuth2Token extends Model implements Expireable {
         $this->setExpires(time() + $lifetime);
     }
     public function getLifetime() {
-        return $this->getExpires() - time();
+        return abs($this->getExpires() - time());
     }
 }
 ?>

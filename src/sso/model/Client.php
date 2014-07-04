@@ -103,10 +103,10 @@ class Client extends Model implements Expireable, Increment, Secondary {
     }
     
     public function getLifetime() {
-        return App::get('lifetime.client', 18400);
+        return abs(intval(App::get('lifetime.client', 0)));
     }
     public function setLifetime($lifetime) {
-        App::set('lifetime.client', intval($lifetime));
+        App::set('lifetime.client', abs(intval($lifetime)));
     }
 }
 ?>
