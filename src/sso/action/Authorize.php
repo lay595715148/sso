@@ -40,12 +40,12 @@ class Authorize extends UAction {
      */
     protected $oauth2TokenService;
     public function onCreate() {
-        parent::onCreate();
         $this->clientService = $this->service('sso\service\ClientService');
         $this->scopeService = $this->service('sso\service\ScopeService');
         $this->oauth2CodeService = $this->service('sso\service\OAuth2CodeService');
         $this->oauth2TokenService = $this->service('sso\service\OAuth2TokenService');
         $this->template->file('authorize.php');
+        parent::onCreate();
     }
     public function onGet() {
         $request = $this->request;
@@ -63,9 +63,6 @@ class Authorize extends UAction {
         //$this->oauth2TokenService->expire();
         //$ret = $this->scopeService->update(array('_id' => array('$gt' => 0)), array('basis' => 1));
         //$ret = $this->scopeService->upd(1000, array('basis' => 1));
-        // $this->clientService->mongo();
-        // $this->clientService->mysql();
-        // $this->clientService->memcache();
 
         //$this->service('sso\service\SessionService')->remove(array('id' => session_id(), 'data' => '', 'expires' => time() + 8400));
         //$this->service('sso\service\SessionService')->add(array('id' => session_id(), 'data' => '', 'expires' => time() + 8400));

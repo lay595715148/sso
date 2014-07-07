@@ -2,7 +2,7 @@
 use lay\util\Logger;
 
 return array(
-    'logger' => array(Logger::L_ALL, false, 0),
+    'logger' => array(Logger::L_ALL & ~Logger::L_INFO, false, 0),
     'appname' => 'sso',
     'theme' => 'default',
     'themes' => array(
@@ -76,7 +76,7 @@ return array(
             'port' => 11211
         ),
         'redis' => array(
-            'host' => '192.168.159.127',
+            'host' => '127.0.0.1',//192.168.159.127
             'port' => 6379
         ),
         'mongo' => array(

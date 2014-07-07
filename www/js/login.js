@@ -15,12 +15,12 @@ $(document).ready(function() {
     }
     $('.main').css({
         'background-color' : 'rgb(249, 221, 200)',
-        'background-image' : 'url(http://mimg.127.net/index/163/themes/140127_yixin2_bg2.jpg)',
+        //'background-image' : 'url(http://mimg.127.net/index/163/themes/140127_yixin2_bg2.jpg)',
         'background-position' : '0% 0%',
         'background-repeat' : 'repeat no-repeat'
     });
     $('.main-inner').css({
-        'background-image' : 'url(http://mimg.127.net/index/163/themes/140127_yixin2_cnt2.jpg)',
+        //'background-image' : 'url(http://mimg.127.net/index/163/themes/140127_yixin2_cnt2.jpg)',
         'background-position' : '50% 0%',
         'background-repeat' : 'no-repeat no-repeat'
     });

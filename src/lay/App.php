@@ -14,6 +14,7 @@ use lay\core\PluginManager;
 use lay\core\Action;
 use lay\config\C;
 use Exception;
+use lay\core\Store;
 
 if(! defined('INIT_LAY')) {
     define('INIT_LAY', true); // 标记
@@ -829,6 +830,7 @@ final class App {
         EventEmitter::emit(App::E_DESTROY, array(
                 $this
         ));
+        //Store::closeAll();
     }
 }
 ?>

@@ -15,13 +15,19 @@ class SessionService extends Service {
      */
     protected $mongo;
     /**
+     * SessionRedis
+     * @var SessionRedis
+     */
+    protected $store;
+    /**
      * SessionMemcache
      * @var SessionMemcache
      */
-    protected $store;
+    protected $memcache;
     public function __construct() {
         $this->mongo = Store::getInstance('sso\plugin\session\SessionMongo');
-        parent::__construct(Store::getInstance('sso\plugin\session\SessionMemcache'));
+        $this->memcache = Store::getInstance('sso\plugin\session\SessionMemcache');
+        parent::__construct(Store::getInstance('sso\plugin\session\SessionRedis'));
     }
     /**
      * 在数据库中清除过期的session

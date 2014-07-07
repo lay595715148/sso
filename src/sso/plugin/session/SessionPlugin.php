@@ -18,6 +18,7 @@ class SessionPlugin extends AbstractPlugin {
     private $sessionFlag = false;
     public function initilize() {
         session_start();
+        $_SESSION = array();
         $this->addHook(App::H_INIT, array($this, 'initSession'));
         $this->addHook(Action::H_STOP, array($this, 'updateSession'));
         $this->addHook(App::H_STOP, array($this, 'cleanSession'));

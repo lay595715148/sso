@@ -27,7 +27,7 @@
     <div class="header-inner">
       <h1 class="header-logo">
         <a href="/login" target="_blank">
-          <img src="http://mimg.127.net/logo/126logo.gif">
+          <img src="http://sso.laysoft.cn/verify">
         </a>
       </h1>
     <nav class="header-nav">
