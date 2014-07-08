@@ -56,6 +56,7 @@ class OAuth2TokenService extends Service {
         $oauth2token->setUserid($user['id']);
         $oauth2token->setClientId($client['clientId']);
         $oauth2token->setType(OAuth2::TOKEN_TYPE_ACCESS);
+        $oauth2token->setScope($scope);
         $info = $oauth2token->toArray();
         $ret = $this->add($info);
         if($ret) {
@@ -73,6 +74,7 @@ class OAuth2TokenService extends Service {
         $oauth2token->setUserid($user['id']);
         $oauth2token->setClientId($client['clientId']);
         $oauth2token->setType(OAuth2::TOKEN_TYPE_REFRESH);
+        $oauth2token->setScope($scope);
         $info = $oauth2token->toArray();
         $ret = $this->add($info);
         if($ret) {

@@ -40,6 +40,7 @@ class OAuth2 {
     const HTTP_QUERY_PARAM_USER_ID = 'user_id';
     const HTTP_QUERY_PARAM_VERIFY_CODE = 'verify_code';
     const HTTP_QUERY_PARAM_SCOPE = 'scope';
+    const HTTP_QUERY_PARAM_DISPLAY = 'display';
     const HTTP_QUERY_PARAM_STATE = 'state';
     /**
      *

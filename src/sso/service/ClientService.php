@@ -87,7 +87,7 @@ class ClientService extends Service {
         //$ret = $this->memcache->get($id);
         $ret = $this->redis->get($id);
         if(empty($ret)) {
-            if(is_string($id)) {
+            if(is_string($id) && !is_numeric($id)) {
                 $ret = $this->store->select(array('clientId' => $id));
                 $ret = $this->store->toOne();
             } else {

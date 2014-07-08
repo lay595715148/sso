@@ -10,6 +10,7 @@ use sso\service\OAuth2TokenService;
 use lay\action\TypicalAction;
 use sso\sdk\SsoAuth;
 use sso\core\OAuth2;
+use sso\service\ScopeService;
 
 class Redirect extends TypicalAction {
     /**

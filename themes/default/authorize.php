@@ -27,7 +27,7 @@
     <div class="header-inner">
       <h1 class="header-logo">
         <a href="/login" target="_blank">
-          <img src="http://sso.laysoft.cn/verify">
+          <img src="http://mimg.127.net/logo/126logo.gif">
         </a>
       </h1>
     <nav class="header-nav">
@@ -44,15 +44,13 @@
         </div>
         <div class="login-form">
           <form action="" method="post">
-            <?php if($user) {?>
-            <div class="login-line-info">
-              <span name="info" class="login-form-span info">检测到您已登录，点击授权并登录</span>
+            <?php if($user) {?><div class="login-line-info">
+              <span class="login-form-span info">检测到您已登录，点击授权并登录</span>
             </div>
             <div class="login-line-info">
-              <span name="username" class="login-form-span name">用户名：<?=$user['name']?></span>
+              <span class="login-form-span name">用户名：<?=$user['name']?></span>
             </div>
-            <?php } else {?>
-            <div class="login-line-input">
+            <?php } else {?><div class="login-line-input">
               <b class="ico ico-uid"></b>
               <input name="username" class="login-form-input"/>
               <label class="login-placeholder login-placeholder-show">用户名</label>
@@ -64,24 +62,22 @@
             </div>
             <?php }?>
             <div class="login-line-check">
-              <?php if($error) {?>
-              <span class="failure"><?=$error?></span>
-              <?php } else if($user) {?>
-              <input id="otherlogin" type="hidden" name="otherlogin" value=""/>
-              <?php } else {?>
-              <input id="register" type="hidden" name="register" value=""/>
+              <?php if($error) {?><span class="failure"><?=$error?></span>
+              <?php } else if($user) {?><input id="otherlogin" type="hidden" name="otherlogin" value=""/>
+              <?php } else {?><input id="register" type="hidden" name="register" value=""/>
+              <?php }?>
+              <?php if($is_verify) {?><img src="/verify" onclick="this.src=this.src"/>
+              <input id="verifyCode" type="text" name="verify_code" value=""/>
               <?php }?>
             </div>
             <div class="login-line-btn">
-              <?php if($user) {?>
-              <button type="submit" onclick="javascript:$(&quot;#otherlogin&quot;).val(&quot;&quot;);" class="btn login-button">
+              <?php if($user) {?><button type="submit" onclick="javascript:$(&quot;#otherlogin&quot;).val(&quot;&quot;);" class="btn login-button">
                 <span class="ui-button-text">授权并登录</span>
               </button>
               <button type="submit" onclick="javascript:$(&quot;#otherlogin&quot;).val(&quot;1&quot;);" class="btn login-button login-button-other">
-                <span class="ui-button-text">其他帐号登录</span>
+                <span class="ui-button-text">其他帐号</span>
               </button>
-              <?php } else {?>
-              <button type="submit" onclick="javascript:$(&quot;#register&quot;).val(&quot;&quot;);" class="btn login-button">
+              <?php } else {?><button type="submit" onclick="javascript:$(&quot;#register&quot;).val(&quot;&quot;);" class="btn login-button">
                 <span class="ui-button-text">登  录</span>
               </button>
               <button type="submit" onclick="javascript:$(&quot;#register&quot;).val(&quot;1&quot;);" class="btn login-button login-button-reg">
@@ -100,8 +96,7 @@
                         <input type="checkbox" id="select_all" class="checkbox oauth_checkbox_all" checked="checked">
                         <label class="oauth_item_title" for="select_all">全选</label>
                       </li>
-                      <?php foreach ($scope as $s) {?>
-                      <li>
+                      <?php foreach ($scope as $s) {?><li>
                         <input name="api_choose" type="checkbox" class="checkbox oauth_checkbox" id="item_<?=$s['id']?>" value="<?=$s['id']?>" title="<?=$s['basis']?'默认授权 不可更改':''?>" checked="checked" <?=$s['basis']?'disabled="true"':''?>>
                         <label class="oauth_item_title"><?=$s['description']?></label>
                       </li>
@@ -140,7 +135,7 @@
                   </div>
                 </div>
               </div>
-              <?php print_r($scope);?>
+              <?php var_dump($user);?>
             </div>
           </form>
         </div>

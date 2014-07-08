@@ -23,10 +23,10 @@ class SessionService extends Service {
      * SessionMemcache
      * @var SessionMemcache
      */
-    protected $memcache;
+    //protected $memcache;
     public function __construct() {
         $this->mongo = Store::getInstance('sso\plugin\session\SessionMongo');
-        $this->memcache = Store::getInstance('sso\plugin\session\SessionMemcache');
+        //$this->memcache = Store::getInstance('sso\plugin\session\SessionMemcache');
         parent::__construct(Store::getInstance('sso\plugin\session\SessionRedis'));
     }
     /**

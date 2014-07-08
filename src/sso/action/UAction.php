@@ -17,13 +17,14 @@ class UAction extends TypicalAction {
      */
     protected $userService;
     public function onCreate() {
-        parent::onCreate();
         $this->userService = $this->service('sso\service\UserService');
+        parent::onCreate();
     }
     protected function removeSessionUser() {
         unset($_SESSION['userid']);
         unset($_SESSION['username']);
         unset($_SESSION['usernick']);
+        session_regenerate_id(true);
     }
     /**
      * 
@@ -36,7 +37,7 @@ class UAction extends TypicalAction {
     }
     protected function checkVerifyCode($verifyCode) {
         if($_SESSION['verifyCode']) {
-            if($_SESSION['verifyCode'] == $verifyCode) {
+            if(strtolower($_SESSION['verifyCode']) == strtolower($verifyCode)) {
                 return true;
             } else {
                 return false;
@@ -54,7 +55,11 @@ class UAction extends TypicalAction {
         return $loginCount;
     }
     protected function updateVerifyCode($verifyCode) {
-        $_SESSION['verifyCode'] = $verifyCode;
+            $_SESSION['verifyCode'] = $verifyCode;
+    }
+    protected function isNeedVerification() {
+        $loginCount = $_SESSION['loginCount'];
+        return $loginCount && $loginCount > 1 ? true : false;
     }
 }
 ?>

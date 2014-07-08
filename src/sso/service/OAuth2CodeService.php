@@ -47,7 +47,7 @@ class OAuth2CodeService extends Service {
         $this->mongo->add($info);
     }
     
-    public function gen($user, $client) {
+    public function gen($user, $client, $scope = '') {
         $lifetime = App::get('oauth2.lifetime.code', 100);
         $code = OAuth2::generateCode();
         
@@ -56,6 +56,7 @@ class OAuth2CodeService extends Service {
         $oauth2code->setLifetime($lifetime);
         $oauth2code->setUserid($user['id']);
         $oauth2code->setClientId($client['clientId']);
+        $oauth2code->setScope($scope);
         //$oauth2code->setRedirectURI($client['redirectURI']);
         $ret = $this->add($oauth2code->toArray());
         if($ret) {

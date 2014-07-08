@@ -16,11 +16,13 @@ use lay\model\Expireable;
  * @method void setUserid(int $userid) 给userid属性赋值
  * @method void setClientId(string $clientId) 给clientId属性赋值
  * @method void setType(int $type) 给type属性赋值
+ * @method void setScope(string $scope) 给scope属性赋值
  * @method void setExpires(int $expires) 给expires属性赋值
  * @method string getToken() 获取token属性值
  * @method int getUserid() 获取userid属性值
  * @method string getClientId() 获取clientId属性值
  * @method int getType() 获取type属性值
+ * @method string getScope() 获取scope属性值
  * @method int getExpires() 获取expires属性值
  */
 class OAuth2Token extends Model implements Expireable {
@@ -30,6 +32,7 @@ class OAuth2Token extends Model implements Expireable {
             'userid' => 0,
             'clientId' => '',
             'type' => 0,
+            'scope' => '',
             'expires' => 0
         ));
     }
@@ -39,6 +42,7 @@ class OAuth2Token extends Model implements Expireable {
             'userid' => self::PROPETYPE_INTEGER,
             'clientId' => self::PROPETYPE_STRING,
             'type' => self::PROPETYPE_INTEGER,
+            'scope' => self::PROPETYPE_STRING,
             'expires' => self::PROPETYPE_INTEGER
         );
     }
@@ -54,6 +58,7 @@ class OAuth2Token extends Model implements Expireable {
             'userid' => 'userid',
             'clientId' => 'clientId',
             'type' => 'type',
+            'scope' => 'scope',
             'expires' => 'expires'
         );
     }

@@ -44,6 +44,7 @@ class ScopeService extends Service {
         $key = $table.'.'.$pk;
         $basisKey = $table.'.'.$pk.'.basis';
         if(empty($scope)) {
+            $tmp = array();
             //获取缓存中的所有scope
             $scope = $this->memcacheStore->get($key);
             if(empty($scope)) {
@@ -52,7 +53,13 @@ class ScopeService extends Service {
             }
             if($scope) {
                 $scope = $this->getList($scope);
+                foreach ($scope as $s) {
+                    $tmp[$s['id']] = $s;
+                }
             }
+            $str = implode(',', array_keys($tmp));
+            $arr = array_values($tmp);
+            $scope = array($str, $arr);
         } else if(is_string($scope)) {
             $scope = trim($scope) ? array_map('trim', explode(',', $scope)) : '';
             $scope = $this->filter($scope);
@@ -73,13 +80,13 @@ class ScopeService extends Service {
             }
             if($scope) {
                 foreach ($scope as $s) {
-                    if($s) {
-                        $tmp[$s['id']] = $s;
-                    }
+                    $tmp[$s['id']] = $s;
                 }
             }
             ksort($tmp);
-            $scope = array_values($tmp);
+            $str = implode(',', array_keys($tmp));
+            $arr = array_values($tmp);
+            $scope = array($str, $arr);
         }
         return $scope;
     }
@@ -108,7 +115,7 @@ class ScopeService extends Service {
         return $this->memcacheStore->set($id, $ids);
     }
     public function getAll() {
-        return $this->store->select(array());
+        return $this->store->select(array(), array(), array('id' => 'ASC'));
     }
     public function getBasisList() {
         return $this->store->select(array('basis' => 1));
@@ -144,7 +151,7 @@ class ScopeService extends Service {
     public function get($id) {
         $ret = $this->memcache->get($id);
         if(empty($ret)) {
-            if(is_string($id)) {
+            if(is_string($id) && !is_numeric($id)) {
                 $ret = $this->store->select(array('name' => $id));
                 $ret = $this->store->toOne();
             } else {

@@ -15,12 +15,12 @@ use lay\model\Expireable;
  * @method void setCode(string $code) 给code属性赋值
  * @method void setUserid(int $userid) 给userid属性赋值
  * @method void setClientId(string $clientId) 给clientId属性赋值
- * @ method void setRedriectURI(string $redriectURI) 给redriectURI属性赋值
+ * @method void setScope(string $scope) 给scope属性赋值
  * @method void setExpires(int $expires) 给expires属性赋值
  * @method string getCode() 获取code属性值
  * @method int getUserid() 获取userid属性值
  * @method string getClientId() 获取clientId属性值
- * @ method string getRedriectURI() 获取redriectURI属性值
+ * @method string getScope() 获取scope属性值
  * @method int getExpires() 获取expires属性值
  */
 class OAuth2Code extends Model implements Expireable {
@@ -29,7 +29,7 @@ class OAuth2Code extends Model implements Expireable {
             'code' => '',
             'userid' => 0,
             'clientId' => '',
-            //'redirectURI' => '',
+            'scope' => '',
             'expires' => 0
         ));
     }
@@ -38,7 +38,7 @@ class OAuth2Code extends Model implements Expireable {
             'code' => self::PROPETYPE_STRING,
             'userid' => self::PROPETYPE_INTEGER,
             'clientId' => self::PROPETYPE_STRING,
-            //'redirectURI' => self::PROPETYPE_STRING,
+            'scope' => self::PROPETYPE_STRING,
             'expires' => self::PROPETYPE_INTEGER
         );
     }
@@ -53,7 +53,7 @@ class OAuth2Code extends Model implements Expireable {
             'code' => '_id',
             'userid' => 'userid',
             'clientId' => 'clientId',
-            //'redirectURI' => 'redirectURI',
+            'scope' => 'scope',
             'expires' => 'expires'
         );
     }

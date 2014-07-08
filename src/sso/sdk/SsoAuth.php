@@ -18,7 +18,7 @@ use lay\util\Logger;
  */
 class SsoAuth {
     const REQUEST_TYPE_CODE = 'code';
-    const REQUEST_TYPE_POST = 'post'; // 用户提交登录
+    const REQUEST_TYPE_POST = 'post';//用户提交登录
     const REQUEST_TYPE_TOKEN = 'token';
     const REQUEST_TYPE_PASSWORD = 'password';
     const REQUEST_TYPE_REFRESH_TOKEN = 'refresh_token';
@@ -44,8 +44,12 @@ class SsoAuth {
     const HTTP_QUERY_PARAM_USERNAME = 'username';
     const HTTP_QUERY_PARAM_PASSWORD = 'password';
     const HTTP_QUERY_PARAM_ACCESS_TOKEN = 'token';
+    const HTTP_QUERY_PARAM_ACCESS_TOKEN_EXPIRES = 'expires_in';
     const HTTP_QUERY_PARAM_REFRESH_TOKEN = 'refresh_token';
     const HTTP_QUERY_PARAM_USER_ID = 'user_id';
+    const HTTP_QUERY_PARAM_SCOPE = 'scope';
+    const HTTP_QUERY_PARAM_DISPLAY = 'display';
+    const HTTP_QUERY_PARAM_STATE = 'state';
     /**
      * client id
      * 
