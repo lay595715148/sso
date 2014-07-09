@@ -5,6 +5,7 @@ use sso\service\OAuth2TokenService;
 use sso\service\ClientService;
 use sso\core\OAuth2;
 use lay\util\Logger;
+use sso\service\ScopeService;
 
 class Info extends UAction {
     /**
@@ -14,15 +15,22 @@ class Info extends UAction {
      */
     protected $clientService;
     /**
+     * ScopeService
+     *
+     * @var ScopeService
+     */
+    protected $scopeService;
+    /**
      * OAuth2TokenService
      * 
      * @var OAuth2TokenService
      */
     protected $oauth2TokenService;
     public function onCreate() {
-        parent::onCreate();
         $this->clientService = $this->service('sso\service\ClientService');
+        $this->scopeService = $this->service('sso\service\ScopeService');
         $this->oauth2TokenService = $this->service('sso\service\OAuth2TokenService');
+        parent::onCreate();
     }
     public function onGet() {
         $_POST = $_REQUEST;
@@ -36,13 +44,19 @@ class Info extends UAction {
         $userid = $_REQUEST['userid'];
         $oauth2token = $this->oauth2TokenService->get($token);
         if($oauth2token && $oauth2token['type'] == OAuth2::TOKEN_TYPE_ACCESS) {// && $userid == $oauth2token['userid']
-            $user = $this->userService->get($oauth2token['userid']);
-            if($user) {
-                $params = $this->genInfo($oauth2token, $user);
-                $this->template->push($params);
-                $this->template->push('user', $user);
+            list($scopeStr, $scopeArr) = $this->scopeService->filter($oauth2token['scope']);
+            $splits = explode(',', $scopeStr);
+            if(in_array('info', $splits) || in_array(1000, $splits)) {
+                $user = $this->userService->get($oauth2token['userid']);
+                if($user) {
+                    $this->template->push('user', $user);
+                    $params = $this->genInfo($oauth2token, $user);
+                    $this->template->push($params);
+                } else {
+                    $this->errorResponse('dismissed_user');
+                }
             } else {
-                $this->errorResponse('invalid_user');
+                $this->errorResponse('unsupported_scope');
             }
         } else {
             $this->errorResponse('invalid_token');

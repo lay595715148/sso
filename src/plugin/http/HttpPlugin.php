@@ -7,17 +7,15 @@ use lay\App;
 
 class HttpPlugin extends AbstractPlugin {
     public function initilize() {
-        $this->addHook(Action::H_STOP, array($this, 'isFound'));
+        $this->addHook(App::H_NONE_ACTION, array($this, 'noneAction'));
     }
-    public function isFound($action) {
-        if(empty($action)) {
-            try {
-                @header("HTTP/1.1 404 Not Found");
-            } catch (Exception $e) {
-                // has output
-            }
-            include App::$_RootPath . '/www/html/404.html';
+    public function noneAction($app) {
+        try {
+            @header("HTTP/1.1 404 Not Found");
+        } catch (Exception $e) {
+            // has output
         }
+        include App::$_RootPath . '/www/html/404.html';
     }
 }
 ?>

@@ -20,7 +20,8 @@ class SessionPlugin extends AbstractPlugin {
         session_start();
         $_SESSION = array();
         $this->addHook(App::H_INIT, array($this, 'initSession'));
-        $this->addHook(Action::H_STOP, array($this, 'updateSession'));
+        //$this->addHook(Action::H_STOP, array($this, 'updateSession'));
+        EventEmitter::on(App::E_DESTROY, array($this, 'updateSession'), EventEmitter::L_HIGH);
         //$this->addHook(Action::H_STOP, array($this, 'cleanSession'));
         $this->sessionService = Service::getInstance('sso\plugin\session\SessionService');
         //$this->sessionService->clean();

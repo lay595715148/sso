@@ -11,13 +11,23 @@ return array(
         )
     ),
     'plugins' => array(
-        'session' => array(
-            'name' => 'session',
-            'classname' => 'sso\plugin\session\SessionPlugin'
-        ),
         'http' => array(
             'name' => 'http',
             'classname' => 'plugin\http\HttpPlugin'
+        ),
+        'session' => array(
+            'name' => 'session',
+            'classname' => 'sso\plugin\session\SessionPlugin'
+        )
+    ),
+    'filters' => array(
+        'observe' => array(
+            'priority' => 2,
+            'classname' => 'sso\filter\ObserveFilter'
+        ),
+        'user_exists' => array(
+            'priority' => 1,
+            'classname' => 'sso\filter\UserExistsFilter'
         )
     ),
     'routers' => array(
@@ -32,7 +42,8 @@ return array(
     ),
     'actions' => array(
         '/' => array(
-            'classname' => 'sso\action\Index'
+            'classname' => 'sso\action\Index',
+            'filter' => ''
         ),
         '/authorize' => array(
             'classname' => 'sso\action\Authorize'
