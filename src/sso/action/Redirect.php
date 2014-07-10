@@ -33,9 +33,9 @@ class Redirect extends TypicalAction {
     protected $oauth2TokenService;
     public function onCreate() {
         parent::onCreate();
-        $this->clientService = $this->service('sso\service\ClientService');
-        $this->oauth2CodeService = $this->service('sso\service\OAuth2CodeService');
-        $this->oauth2TokenService = $this->service('sso\service\OAuth2TokenService');
+        $this->clientService = ClientService::getInstance();
+        $this->oauth2CodeService = OAuth2CodeService::getInstance();
+        $this->oauth2TokenService = OAuth2TokenService::getInstance();
     }
     public function onGet() {
         $clientId = 'lay49515';

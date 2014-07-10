@@ -22,17 +22,17 @@ return array(
     ),
     'filters' => array(
         'observe' => array(
-            'priority' => 2,
+            'priority' => 1,
             'classname' => 'sso\filter\ObserveFilter'
         ),
         'user_exists' => array(
-            'priority' => 1,
+            'priority' => 2,
             'classname' => 'sso\filter\UserExistsFilter'
         )
     ),
     'routers' => array(
         array(
-            'rule' => '/^\/user-(?P<id>\d+)\.html$/',
+            'rule' => '/^\/user-(?P<id>\d+)\.(?P<ext>html|htm)$/',
             //'host' => 'web.lay.laysoft.cn',//多个用|做分隔
             //'ip' => '127.0.0.1',//多个用|做分隔
             //'port' => 80,//多个用|做分隔

@@ -18,6 +18,13 @@ use lay\core\Action;
 
 class ClientService extends Service {
     /**
+     * ClientService
+     * @return ClientService
+     */
+    public static function getInstance() {
+        return parent::getInstance();
+    }
+    /**
      * DemoUserMongo
      * @var DemoUserMongo
      */
@@ -42,10 +49,10 @@ class ClientService extends Service {
      * @var ClientMongo
      */
     protected $store;
-    public function __construct() {
-        $this->memcache = Store::getInstance('sso\store\ClientMemcache');
-        $this->redis = Store::getInstance('sso\store\redis\ClientRedis');
-        parent::__construct(Store::getInstance('sso\store\ClientMongo'));
+    protected function __construct() {
+        $this->memcache = ClientMemcache::getInstance();
+        $this->redis = ClientRedis::getInstance();
+        parent::__construct(ClientMongo::getInstance());
     }
     public function update($query, $info) {
         $ret = $this->store->update($query, $info);

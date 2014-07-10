@@ -41,10 +41,10 @@ class Authorize extends UAction {
      */
     protected $oauth2TokenService;
     public function onCreate() {
-        $this->clientService = $this->service('sso\service\ClientService');
-        $this->scopeService = $this->service('sso\service\ScopeService');
-        $this->oauth2CodeService = $this->service('sso\service\OAuth2CodeService');
-        $this->oauth2TokenService = $this->service('sso\service\OAuth2TokenService');
+        $this->clientService = ClientService::getInstance();
+        $this->scopeService = ScopeService::getInstance();
+        $this->oauth2CodeService = OAuth2CodeService::getInstance();
+        $this->oauth2TokenService = OAuth2TokenService::getInstance();
         $this->template->file('authorize.php');
         parent::onCreate();
     }

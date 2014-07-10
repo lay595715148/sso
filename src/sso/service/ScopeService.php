@@ -13,6 +13,13 @@ use lay\core\Action;
 
 class ScopeService extends Service {
     /**
+     * ScopeService
+     * @return ScopeService
+     */
+    public static function getInstance() {
+        return parent::getInstance();
+    }
+    /**
      * ScopeMemcache
      * @var ScopeMemcache
      */
@@ -27,10 +34,10 @@ class ScopeService extends Service {
      * @var ScopeMongo
      */
     protected $store;
-    public function __construct() {
-        $this->memcacheStore = Store::getInstance('lay\store\MemcacheStore');
-        $this->memcache = Store::getInstance('sso\store\memcache\ScopeMemcache');
-        parent::__construct(Store::getInstance('sso\store\mongo\ScopeMongo'));
+    protected function __construct() {
+        $this->memcacheStore = MemcacheStore::getInstance();
+        $this->memcache = ScopeMemcache::getInstance();
+        parent::__construct(ScopeMongo::getInstance());
     }
     /**
      * 过滤掉不合法的scope

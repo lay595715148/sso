@@ -14,6 +14,13 @@ use sso\model\OAuth2Token;
 
 class OAuth2TokenService extends Service {
     /**
+     * OAuth2TokenService
+     * @return OAuth2TokenService
+     */
+    public static function getInstance() {
+        return parent::getInstance();
+    }
+    /**
      * OAuth2CodeMongo
      * @var OAuth2TokenMongo
      */
@@ -23,9 +30,9 @@ class OAuth2TokenService extends Service {
      * @var OAuth2TokenMemcache
      */
     protected $store;
-    public function __construct() {
-        $this->mongo = Store::getInstance('sso\store\OAuth2TokenMongo');
-        parent::__construct(Store::getInstance('sso\store\OAuth2TokenMemcache'));
+    protected function __construct() {
+        $this->mongo = OAuth2TokenMongo::getInstance();
+        parent::__construct(OAuth2TokenMemcache::getInstance());
     }
     /**
      * 在数据库中清除过期的令牌码数据

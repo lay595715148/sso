@@ -16,25 +16,24 @@ class Userinfo extends StaticAction {
     protected $user;
     protected $found;
     public function onCreate() {
-        $this->userService = $this->service('sso\service\UserService');
+        $this->userService = UserService::getInstance();
         $this->template->file('userinfo.php');
     }
     public function onGet() {
-        global $_PARAM;
         $request = $this->request;
         $response = $this->response;
         
-        $id = intval($_PARAM['id']);
+        $id = intval(App::$_Parameter['id']);
         $this->user = $this->userService->get($id);
         $this->template->push('user', $this->user);
     }
     
     public function find() {
-        global $_PARAM;
         if(empty($this->found)) {
-            $id = intval($_PARAM['id']);
+            $id = intval(App::$_Parameter['id']);
             $template = $this->template->getFile();
-            $filename = realpath(App::$_RootPath . '/www/html/user/' . $id . '.html');
+            $dir = App::$_RootPath . '/www/html/user/';
+            $filename = realpath($dir . $id . '.html');
             if(is_file($filename) && is_file($template)) {
                 $origin = filemtime($template);
                 $static = filemtime($filename);
@@ -50,9 +49,8 @@ class Userinfo extends StaticAction {
         return $this->found;
     }
     public function make() {
-        global $_PARAM;
         if ($this->user) {
-            $id = intval($_PARAM['id']);
+            $id = intval(App::$_Parameter['id']);
             $dir = App::$_RootPath . '/www/html/user/';
             $filename = $dir . $id . '.html';
             $content = $this->template->out();

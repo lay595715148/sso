@@ -14,6 +14,13 @@ use sso\core\OAuth2;
 
 class OAuth2CodeService extends Service {
     /**
+     * OAuth2CodeService
+     * @return OAuth2CodeService
+     */
+    public static function getInstance() {
+        return parent::getInstance();
+    }
+    /**
      * OAuth2CodeMongo
      * @var OAuth2CodeMongo
      */
@@ -23,9 +30,9 @@ class OAuth2CodeService extends Service {
      * @var OAuth2CodeMemcache
      */
     protected $store;
-    public function __construct() {
-        $this->mongo = Store::getInstance('sso\store\OAuth2CodeMongo');
-        parent::__construct(Store::getInstance('sso\store\OAuth2CodeMemcache'));
+    protected function __construct() {
+        $this->mongo = OAuth2CodeMongo::getInstance();
+        parent::__construct(OAuth2CodeMemcache::getInstance());
     }
     /**
      * 在数据库中清除过期的授权码数据

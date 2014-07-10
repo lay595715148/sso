@@ -12,6 +12,13 @@ use sso\store\redis\UserRedis;
 
 class UserService extends Service {
     /**
+     * UserService
+     * @return UserService
+     */
+    public static function getInstance() {
+        return parent::getInstance();
+    }
+    /**
      * UserMemcache
      * @var UserMemcache
      */
@@ -26,10 +33,10 @@ class UserService extends Service {
      * @var UserMongo
      */
     protected $store;
-    public function __construct() {
-        $this->memcache = Store::getInstance('sso\store\UserMemcache');
-        $this->redis = Store::getInstance('sso\store\redis\UserRedis');
-        parent::__construct(Store::getInstance('sso\store\UserMongo'));
+    protected function __construct() {
+        $this->memcache = UserMemcache::getInstance();
+        $this->redis = UserRedis::getInstance();
+        parent::__construct(UserMongo::getInstance());
     }
     public function get($id) {
         //$ret = $this->memcache->get($id);

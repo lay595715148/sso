@@ -17,7 +17,7 @@ class UAction extends TypicalAction {
      */
     protected $userService;
     public function onCreate() {
-        $this->userService = $this->service('sso\service\UserService');
+        $this->userService = UserService::getInstance();
         parent::onCreate();
     }
     protected function removeSessionUser() {
