@@ -4,10 +4,16 @@ namespace sso\plugin\weibo;
 use lay\core\Model;
 
 class Weibo extends Model {
+    //private $id = 0;
     public function __construct() {
-        parent::__construct(array(
+    }
+    /**
+     * @return array
+     */
+    public function properties() {
+        return array(
             'id' => 0
-        ));
+        );
     }
     public function rules() {
         return array(

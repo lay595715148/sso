@@ -2,13 +2,19 @@
 namespace sso\filter;
 
 use lay\core\Filter;
+use lay\core\FilterChain;
+use lay\core\Action;
 
 class ObserveFilter implements Filter {
     public function initilize($filterConfig) {
         
     }
+    /**
+     * @param Action $chain
+     * @param FilterChain $chain
+     */
     public function doFilter($action, $chain) {
-        $chain->doFilter();
+        $chain->doFilter($action);
     }
 }
 ?>

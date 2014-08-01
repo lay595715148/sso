@@ -45,6 +45,9 @@ return array(
             'classname' => 'sso\action\Index',
             'filter' => ''
         ),
+        '/demo' => array(
+            'classname' => 'demo\action\DemoAction'
+        ),
         '/authorize' => array(
             'classname' => 'sso\action\Authorize'
         ),
@@ -78,6 +81,12 @@ return array(
         'mysql' => array(
             'host' => '127.0.0.1',
             'port' => 3306,
+            'username' => 'root',
+            'password' => 'yuiopas',
+            'schema' => 'laysoft'
+        ),
+        'pdo' => array(
+            'dsn' => 'mysql:host=127.0.0.1;port=3306;dbname=laysoft',
             'username' => 'root',
             'password' => 'yuiopas',
             'schema' => 'laysoft'

@@ -6,12 +6,20 @@ use lay\model\Expireable;
 use lay\App;
 
 class Test extends Model implements Expireable {
+    //private $id = 0;
+    //private $name = '';//全英文字母名称
+    //private $value = '';
     public function __construct() {
-        parent::__construct(array(
+    }
+    /**
+     * @return array
+     */
+    public function properties() {
+        return array(
             'id' => 0,
-            'name' => '',//全英文字母名称
+            'name' => '',
             'value' => ''
-        ));
+        );
     }
     public function rules() {
         return array(

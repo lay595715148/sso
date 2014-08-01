@@ -7,13 +7,22 @@ use lay\App;
 use lay\model\Secondary;
 
 class Scope extends Model implements Expireable, Secondary {
+    //private $id = 0;
+    //private $name = '';//全英文字母名称
+    //private $basis = 0;
+    //private $description = '';
     public function __construct() {
-        parent::__construct(array(
+    }
+    /**
+     * @return array
+     */
+    public function properties() {
+        return array(
             'id' => 0,
-            'name' => '',//全英文字母名称
+            'name' => '',
             'basis' => 0,
             'description' => ''
-        ));
+        );
     }
     public function rules() {
         return array(

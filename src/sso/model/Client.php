@@ -10,16 +10,16 @@ use lay\model\Secondary;
 /**
  * 客户端对象
  * @author Lay Li
- * @property int $id
- * @property string $clientId
- * @property string $clientName
- * @property string $clientSecret
- * @property int $clientType
- * @property string $redirectURI
- * @property string $scope
- * @property string $location
- * @property string $description
- * @property string $icon
+ * @ property int $id
+ * @ property string $clientId
+ * @ property string $clientName
+ * @ property string $clientSecret
+ * @ property int $clientType
+ * @ property string $redirectURI
+ * @ property string $scope
+ * @ property string $location
+ * @ property string $description
+ * @ property string $icon
  * @method void setId(int $id) 给id属性赋值
  * @method void setClientId(string $clientId) 给clientId属性赋值
  * @method void setClientName(string $clientName) 给clientName属性赋值
@@ -42,8 +42,23 @@ use lay\model\Secondary;
  * @method string getIcon() 获取icon属性值
  */
 class Client extends Model implements Expireable, Increment, Secondary {
+    //private $id = 0;
+    //private $clientId = '';
+    //private $clientName = '';
+    //private $clientSecret = '';
+    //private $clientType = 0;
+    //private $redirectURI = '';
+    //private $scope = '';
+    //private $location = '';
+    //private $description = '';
+    //private $icon = '';
     public function __construct() {
-        parent::__construct(array(
+    }
+    /**
+     * @return array
+     */
+    public function properties() {
+        return array(
             'id' => 0,
             'clientId' => '',
             'clientName' => '',
@@ -54,7 +69,7 @@ class Client extends Model implements Expireable, Increment, Secondary {
             'location' => '',
             'description' => '',
             'icon' => ''
-        ));
+        );
     }
     public function rules() {
         return array(

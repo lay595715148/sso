@@ -7,9 +7,9 @@ use lay\model\Expireable;
 /**
  * Session数据模型对象
  * @author Lay Li
- * @property string $id
- * @property string $data
- * @property int $expires
+ * @ property string $id
+ * @ property string $data
+ * @ property int $expires
  * @method void setId(string $id) 给token属性赋值
  * @method void setData(string $data) 给data属性赋值
  * @method void setExpires(int $expires) 给expires属性赋值
@@ -18,12 +18,20 @@ use lay\model\Expireable;
  * @method int getExpires() 获取expires属性值
  */
 class Session extends Model implements Expireable {
+    //private $id = '';
+    //private $data = '';
+    //private $expires = 0;
     public function __construct() {
-        parent::__construct(array(
+    }
+    /**
+     * @return array
+     */
+    public function properties() {
+        return array(
             'id' => '',
             'data' => '',
             'expires' => 0
-        ));
+        );
     }
     public function rules() {
         return array(

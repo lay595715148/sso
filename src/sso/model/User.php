@@ -8,10 +8,10 @@ use lay\App;
 /**
  * 用户对象
  * @author Lay Li
- * @property int $id
- * @property string $name
- * @property string $pass
- * @property string $nick
+ * @ property int $id
+ * @ property string $name
+ * @ property string $pass
+ * @ property string $nick
  * @method void setId(int $id) 给id属性赋值
  * @method void setName(string $name) 给name属性赋值
  * @method void setPass(string $pass) 给pass属性赋值
@@ -22,13 +22,22 @@ use lay\App;
  * @method string getNick() 获取nick属性值
  */
 class User extends Model implements Expireable {
+    //private $id = 0;
+    //private $name = '';
+    //private $pass = '';
+    //private $nick = '';
     public function __construct() {
-        parent::__construct(array(
+    }
+    /**
+     * @return array
+     */
+    public function properties() {
+        return array(
             'id' => 0,
             'name' => '',
             'pass' => '',
             'nick' => ''
-        ));
+        );
     }
     public function rules() {
         return array(
