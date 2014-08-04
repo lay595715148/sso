@@ -3,8 +3,8 @@ namespace sso\service;
 
 use lay\core\Service;
 use lay\core\Store;
-use sso\store\OAuth2CodeMongo;
-use sso\store\OAuth2CodeMemcache;
+use sso\store\mongo\OAuth2CodeMongo;
+use sso\store\memcache\OAuth2CodeMemcache;
 use lay\core\EventEmitter;
 use lay\App;
 use lay\core\Action;

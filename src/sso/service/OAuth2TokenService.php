@@ -3,8 +3,8 @@ namespace sso\service;
 
 use lay\core\Service;
 use lay\core\Store;
-use sso\store\OAuth2TokenMemcache;
-use sso\store\OAuth2TokenMongo;
+use sso\store\memcache\OAuth2TokenMemcache;
+use sso\store\mongo\OAuth2TokenMongo;
 use lay\core\EventEmitter;
 use lay\App;
 use lay\core\Action;
@@ -21,12 +21,12 @@ class OAuth2TokenService extends Service {
         return parent::getInstance();
     }
     /**
-     * OAuth2CodeMongo
+     * OAuth2TokenMongo
      * @var OAuth2TokenMongo
      */
     protected $mongo;
     /**
-     * OAuth2CodeMemcache
+     * OAuth2TokenMemcache
      * @var OAuth2TokenMemcache
      */
     protected $store;

@@ -3,8 +3,8 @@ namespace sso\service;
 
 use lay\core\Service;
 use lay\core\Store;
-use sso\store\UserMongo;
-use sso\store\UserMemcache;
+use sso\store\mongo\UserMongo;
+use sso\store\memcache\UserMemcache;
 use lay\util\Logger;
 use lay\core\EventEmitter;
 use lay\App;

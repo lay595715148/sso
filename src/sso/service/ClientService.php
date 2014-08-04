@@ -3,8 +3,8 @@ namespace sso\service;
 
 use lay\core\Service;
 use lay\core\Store;
-use sso\store\ClientMongo;
-use sso\store\ClientMemcache;
+use sso\store\mongo\ClientMongo;
+use sso\store\memcache\ClientMemcache;
 use demo\store\DemoUserMongo;
 use demo\store\DemoStore;
 use lay\util\Logger;
