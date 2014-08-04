@@ -1,5 +1,5 @@
 <?php
-namespace sso\store;
+namespace sso\store\mongo;
 
 use lay\store\MongoStore;
 use sso\model\OAuth2Code;
