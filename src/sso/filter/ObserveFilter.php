@@ -6,7 +6,7 @@ use lay\core\FilterChain;
 use lay\core\Action;
 
 class ObserveFilter implements Filter {
-    public function initilize($filterConfig) {
+    public function initilize($config) {
         
     }
     /**

@@ -2,17 +2,19 @@
 namespace sso\filter;
 
 use lay\core\Filter;
+use lay\core\FilterChain;
+use lay\core\Action;
 
 class UserExistsFilter implements Filter {
-    public function initilize($filterConfig) {
+    public function initilize($config) {
         
     }
     /**
-     * (non-PHPdoc)
-     * @see \lay\core\Filter::doFilter()
+     * @param Action $action
+     * @param FilterChain $chain
      */
     public function doFilter($action, $chain) {
-        $chain->doFilter($action, $chain);
+        $chain->doFilter($action);
     }
 }
 ?>

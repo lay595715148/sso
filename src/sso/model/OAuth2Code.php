@@ -7,11 +7,6 @@ use lay\model\Expireable;
 /**
  * OAuth2 Code对象
  * @author Lay Li
- * @ property string $code
- * @ property int $userid
- * @ property string $clientId
- * @ property string $redriectURI
- * @ property int $expires
  * @method void setCode(string $code) 给code属性赋值
  * @method void setUserid(int $userid) 给userid属性赋值
  * @method void setClientId(string $clientId) 给clientId属性赋值
@@ -24,16 +19,8 @@ use lay\model\Expireable;
  * @method int getExpires() 获取expires属性值
  */
 class OAuth2Code extends Model implements Expireable {
-    //private $code = '';
-    //private $userid = 0;
-    //private $clientId = '';
-    //private $scope = '';
-    //private $expires = 0;
     public function __construct() {
     }
-    /**
-     * @return array
-     */
     public function properties() {
         return array(
             'code' => '',

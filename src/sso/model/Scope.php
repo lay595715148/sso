@@ -6,11 +6,19 @@ use lay\model\Expireable;
 use lay\App;
 use lay\model\Secondary;
 
+/**
+ * OAuth2 Scope对象
+ * @author Lay Li
+ * @method void setId(int $id) 给id属性赋值
+ * @method void setName(string $name) 给name属性赋值
+ * @method void setBasis(int $basis) 给basis属性赋值
+ * @method void setDescription(string $description) 给description属性赋值
+ * @method int getId() 获取id属性值
+ * @method string getName() 获取name属性值
+ * @method int getBasis() 获取basis属性值
+ * @method string getDescription() 获取description属性值
+ */
 class Scope extends Model implements Expireable, Secondary {
-    //private $id = 0;
-    //private $name = '';//全英文字母名称
-    //private $basis = 0;
-    //private $description = '';
     public function __construct() {
     }
     /**
