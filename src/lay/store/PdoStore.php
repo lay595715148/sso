@@ -15,7 +15,7 @@ use lay\util\Logger;
 use Exception;
 use PDO;
 use PDOStatement;
-use lay\core\Statment;
+use lay\core\Statement;
 
 if(! defined('INIT_LAY')) {
     exit();
@@ -174,7 +174,7 @@ class PdoStore extends Store {
             $this->connect();
         }
         
-        $criteria = new Statment($model);
+        $criteria = new Statement($model);
         $criteria->addCondition($pk, $id);
         $sql = $criteria->makeSelectSQL();
         $this->paramValues = $criteria->returnParamValues();
@@ -199,7 +199,7 @@ class PdoStore extends Store {
             $this->connect();
         }
         
-        $criteria = new Statment($model);
+        $criteria = new Statement($model);
         $criteria->setCondition(array(
                 $pk,
                 $id
@@ -230,7 +230,7 @@ class PdoStore extends Store {
             return false;
         }
         
-        $criteria = new Statment($model);
+        $criteria = new Statement($model);
         $criteria->setValues($info);
         $sql = $criteria->makeInsertSQL();
         $this->paramValues = $criteria->returnParamValues();
@@ -260,7 +260,7 @@ class PdoStore extends Store {
             return false;
         }
         
-        $criteria = new Statment($model);
+        $criteria = new Statement($model);
         $criteria->setSetter($info);
         $criteria->setCondition(array(
                 $pk,
@@ -288,7 +288,7 @@ class PdoStore extends Store {
             $this->connect();
         }
         
-        $criteria = new Statment($model);
+        $criteria = new Statement($model);
         $criteria->addMultiCondition($info);
         $sql = $criteria->makeCountSQL();
         $this->paramValues = $criteria->returnParamValues();
@@ -324,7 +324,7 @@ class PdoStore extends Store {
             $this->connect();
         }
         
-        $criteria = new Statment($model);
+        $criteria = new Statement($model);
         $criteria->addMultiCondition($condition);
         $criteria->setOrder($order);
         $criteria->setLimit($limit);

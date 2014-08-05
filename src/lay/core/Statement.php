@@ -1,7 +1,7 @@
 <?php
 namespace lay\core;
 
-class Statment extends Criteria {
+class Statement extends Criteria {
     /**
      * bound param value array
      * @var array

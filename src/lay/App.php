@@ -128,11 +128,7 @@ final class App {
      * @return mixed
      */
     public static function get($keystr = '', $default = null) {
-        if(($ret = Configuration::get($keystr)) === null) {
-            return $default;
-        } else {
-            return $ret;
-        }
+        return Configuration::get($keystr, $default);
     }
     /**
      * 获取某个行为控制层（action）的配置项

@@ -41,7 +41,7 @@ class SessionPlugin extends AbstractPlugin {
             $session = new Session();
             $session->setId($id);
             $session->setData($data);
-            $session->setLifetime(App::get('lifetime.scope', 2400));
+            $session->setLifetime(App::get('lifetime.session', 2400));
             if($this->sessionId && $this->sessionId == $id) {
                 $this->sessionService->upd($id, $session->toArray());
             } else if($this->sessionId && $this->sessionId != $id) {

@@ -51,8 +51,8 @@ class Configuration {
      *            类名
      * @return mixed
      */
-    public static function get($keystr, $appname = 'lay') {
-        return self::getInstance($appname)->getter($keystr);
+    public static function get($keystr, $default = null, $appname = 'lay') {
+        return self::getInstance($appname)->getter($keystr, $default);
     }
     /**
      * 设置某个app的节点值
@@ -103,7 +103,7 @@ class Configuration {
      *            要获取的节点键名
      * @return mixed
      */
-    public function getter($keystr) {
+    public function getter($keystr, $default = null) {
         if($this->checkKey($keystr)) {
             if(is_array($keystr) && $keystr) {
                 $node = array();
