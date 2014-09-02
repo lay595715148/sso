@@ -5,6 +5,11 @@ use lay\core\Model;
 use lay\core\Bean;
 use lay\util\Logger;
 
+/**
+ * 
+ * @author Lay Li
+ *
+ */
 class DemoModel extends Model {
     //private $id = 0;
     //private $name = '';

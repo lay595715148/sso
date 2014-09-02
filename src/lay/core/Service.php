@@ -37,7 +37,7 @@ abstract class Service extends AbstractService {
      * @param string $classname 继承Service的类名
      * @return Service
      */
-    public static function getInstance($classname = '') {
+    /* public static function getInstance($classname = '') {
         if(empty($classname)) {
             return parent::getInstance();
         }
@@ -50,23 +50,21 @@ abstract class Service extends AbstractService {
             }
         }
         return self::$_SingletonStack[$classname];
-    }
+    } */
     /**
      * 获取一个新业务逻辑对象实例
      * @param string $classname 继承Service的类名
      * @return Service
      */
-    public static function newInstance($classname) {
+    public static function newInstance($classname = '') {
+        $instance = false;
         if(empty($classname)) {
             $classname = get_called_class();
         }
-        $instance = new $classname();
-        if(is_a($instance, 'lay\core\Service')) {
-            return $instance;
-        } else {
-            unset($instance);
-            return false;
+        if(is_subclass_of($classname, 'lay\core\Service')) {
+            $instance = new $classname();
         }
+        return $instance;
     }
     /**
      * 数据访问对象，为主表（或其他）数据模型的数据访问对象

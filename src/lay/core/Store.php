@@ -35,7 +35,7 @@ abstract class Store extends AbstractStore {
      * @param string $classname 类名
      * @return Store
      */
-    public static function getInstance($classname = '') {
+    /* public static function getInstance($classname = '') {
         if(empty($classname)) {
             return parent::getInstance();
         }
@@ -48,24 +48,22 @@ abstract class Store extends AbstractStore {
             }
         }
         return self::$_SingletonStack[$classname];
-    }
+    } */
     /**
      * 获取一个新数据访问对象实例
      * @param Model $model 模型对象
      * @param string $classname 类名
      * @return Store
      */
-    public static function newInstance($classname) {
+    public static function newInstance($classname = '') {
+        $instance = false;
         if(empty($classname)) {
             $classname = get_called_class();
         }
-        $instance = new $classname();
-        if(is_subclass_of($instance, 'lay\core\Store')) {
-            return $instance;
-        } else {
-            unset($instance);
-            return false;
+        if(is_subclass_of($classname, 'lay\core\Store')) {
+            $instance = new $classname();
         }
+        return $instance;
     }
     /**
      * 关闭所有数据库连接句柄

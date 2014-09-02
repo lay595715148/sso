@@ -7,8 +7,18 @@ use lay\core\EventEmitter;
 use lay\App;
 use lay\core\Action;
 use lay\util\Logger;
+use sso\plugin\session\SessionMongo;
+use sso\plugin\session\SessionRedis;
+use sso\plugin\session\SessionMemcache;
 
 class SessionService extends Service {
+    /**
+     * SessionService
+     * @return SessionService
+     */
+    public static function getInstance() {
+        return parent::getInstance();
+    }
     /**
      * SessionMongo
      * @var SessionMongo
@@ -25,9 +35,9 @@ class SessionService extends Service {
      */
     //protected $memcache;
     public function __construct() {
-        $this->mongo = Store::getInstance('sso\plugin\session\SessionMongo');
-        //$this->memcache = Store::getInstance('sso\plugin\session\SessionMemcache');
-        parent::__construct(Store::getInstance('sso\plugin\session\SessionRedis'));
+        $this->mongo = SessionMongo::getInstance();
+        //$this->memcache = SessionMemcache::getInstance();
+        parent::__construct(SessionRedis::getInstance());
     }
     /**
      * 在数据库中清除过期的session

@@ -15,6 +15,10 @@ use lay\action\HTMLAction;
 use lay\core\Request;
 use lay\action\XMLAction;
 use lay\action\TypicalAction;
+use lay\App;
+use demo\model\DemoModel;
+use sso\model\OAuth2Code;
+use cn\lay\http\RequestFactory;
 
 class DemoAction extends TypicalAction {
     /**
@@ -50,6 +54,10 @@ class DemoAction extends TypicalAction {
         //$ret = $this->demoService->test();
         //$this->test();
         //$this->testMysql();
+        $f = new RequestFactory();
+        Logger::debug($f);
+        $r = $f->createHttpRequest();
+        Logger::debug($r);
         $this->testPdo();
         if(is_a($this, 'lay\action\HTMLAction')) {
             $this->template->file('demo.php');

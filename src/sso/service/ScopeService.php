@@ -79,15 +79,15 @@ class ScopeService extends Service {
                 $ret = $this->cacheBasis();
                 $basis = $this->memcacheStore->get($basisKey);
             }
+            if($scope) {
+                foreach ($scope as $s) {
+                    $tmp[$s['id']] = $s;
+                }
+            }
             if($basis) {
                 $basis = $this->getList($basis);
                 foreach ($basis as $b) {
                     $tmp[$b['id']] = $b;
-                }
-            }
-            if($scope) {
-                foreach ($scope as $s) {
-                    $tmp[$s['id']] = $s;
                 }
             }
             ksort($tmp);
@@ -177,6 +177,7 @@ class ScopeService extends Service {
         if($ret) {
             EventEmitter::on(App::E_STOP, array($this, 'updateInMemcache'), EventEmitter::L_HIGH, array($id));
             EventEmitter::on(App::E_STOP, array($this, 'cacheAll'), EventEmitter::L_HIGH);
+            EventEmitter::on(App::E_STOP, array($this, 'cacheBasis'), EventEmitter::L_HIGH);
         }
         return $ret;
     }

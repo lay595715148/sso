@@ -8,6 +8,7 @@ use lay\core\Service;
 use lay\core\EventEmitter;
 use lay\util\Logger;
 use lay\core\Action;
+use sso\plugin\session\SessionService;
 
 class SessionPlugin extends AbstractPlugin {
     /**
@@ -23,7 +24,7 @@ class SessionPlugin extends AbstractPlugin {
         //$this->addHook(Action::H_STOP, array($this, 'updateSession'));
         EventEmitter::on(App::E_DESTROY, array($this, 'updateSession'), EventEmitter::L_HIGH);
         //$this->addHook(Action::H_STOP, array($this, 'cleanSession'));
-        $this->sessionService = Service::getInstance('sso\plugin\session\SessionService');
+        $this->sessionService = SessionService::getInstance();
         //$this->sessionService->clean();
     }
     public function initSession() {

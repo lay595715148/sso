@@ -55,8 +55,8 @@ class Authorize extends UAction {
         // $this->scopeService->add(array('id' => 1001, 'description' => '读取、发表微博信息'));
         // $this->scopeService->upd(1001, array('name' => 'status', 'description' => '读取微博信息'));
         // $this->scopeService->add(array('id' => 1002, 'name' => 'write', 'description' => '发表微博信息'));
-        // $this->scopeService->upd(1000, array('name' => 'info'));
-        // $this->scopeService->upd(1001, array('name' => 'status'));
+        // $this->scopeService->upd(1000, array('name' => 'info', 'description' => '获得您的昵称、头像等基本信息'));
+        // $this->scopeService->upd(1001, array('name' => 'status', 'basis' => 0));
         // $this->scopeService->del(1002);
          $this->oauth2CodeService->clean();
         // $this->oauth2CodeService->expire();
