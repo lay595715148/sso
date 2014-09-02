@@ -383,8 +383,9 @@ class Template extends AbstractTemplate {
         }
         
         if(Logger::hasOutput()) {
-            echo $this->response->getData();
+            echo $this->response->getData();Logger::debug(222);
         } else {
+            $this->response->status(200);
             $this->response->send();
         }
     }
@@ -406,6 +407,7 @@ class Template extends AbstractTemplate {
         if(Logger::hasOutput()) {
             echo $this->response->getData();
         } else {
+            $this->response->status(200);
             $this->response->send();
         }
     }
@@ -458,6 +460,7 @@ class Template extends AbstractTemplate {
         if(Logger::hasOutput()) {
             echo $this->response->getData();
         } else {
+            $this->response->status(200);
             $this->response->send();
         }
     }
